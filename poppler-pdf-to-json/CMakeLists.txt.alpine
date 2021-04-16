@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(poppler-pdf-to-json)
+
+set(LIB_DIR /lib/x86_64-linux-gnu)
+
+set(INCLUDE_POPPLER /usr/include/poppler/cpp)
+set(INCLUDE_POPPLER_QT /usr/include/poppler/qt5)
+set(INCLUDE_QT /usr/include/QtCore)
+
+add_executable(poppler-pdf-to-json main.cpp src/document.cpp src/page.cpp src/field.cpp)
+
+include_directories(${INCLUDE_POPPLER} ${INCLUDE_POPPLER_QT} ${INCLUDE_QT} ${CMAKE_SOURCE_DIR}/src)
+
+target_link_libraries(poppler-pdf-to-json /usr/lib/libQt5Core.so.5 /usr/lib/libpoppler.so.99 /usr/lib/libpoppler-qt5.so.1)
