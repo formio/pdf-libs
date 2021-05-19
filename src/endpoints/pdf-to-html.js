@@ -7,7 +7,6 @@ const fs = require('fs');
 const {generateHtml} = require('../converters/pdf2html');
 
 const pdfToHtml = (req, res) => {
-  console.req
   const outputPath = path.join('pdf2html_tmpdir', `${uuid()}.html`);
   generateHtml(
     req.filePath,

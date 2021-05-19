@@ -25,7 +25,6 @@ const generateHtml = (filePath, toFile, params, commands, done) => {
       filePath,
       toFile
     ]);
-    console.log(`${config.pdf2htmlexPath} ${commands.join(' ')}`);
     const {stdout, stderr} = spawn(config.pdf2htmlexPath, commands)
       .on('close', (code) => {
         if (code === 0) {
