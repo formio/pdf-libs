@@ -25,29 +25,6 @@ RUN apk add --upgrade nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium 
         && rm -rf /var/lib/apt/lists/* \
         && rm /var/cache/apk/*
 
-WORKDIR /usr/src/rest-wrapper
-ENV POPPLER_PDF_TO_JSON="./poppler-pdf-to-json/build/poppler-pdf-to-json" \
-    PDF2HTMLEX_PATH="./pdf2HtmlEx/usr/local/bin/pdf2htmlEX" \
-    PSTOPDF_PATH="/usr/bin/ps2pdf" \
-    PORT=8080
-
-COPY package*.json ./
-
-# Installing python 2.7
-RUN apk add python2
-
-COPY src ./src
-COPY poppler-pdf-to-json ./poppler-pdf-to-json
-
-
-COPY *.js ./
-
-## Installing node.js packages
-RUN npm install --only=prod
-
-## Building poppler-pdf-to-json
-WORKDIR /usr/src/rest-wrapper/poppler-pdf-to-json
-
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/community/" >> /etc/apk/repositories
 
 RUN apk update
@@ -60,10 +37,32 @@ RUN apk add --update poppler-qt5
 RUN apk add --update poppler-dev
 RUN apk add --update poppler-qt5-dev
 
+WORKDIR /usr/src/rest-wrapper
+ENV POPPLER_PDF_TO_JSON="./pdf-to-json/build/poppler-pdf-to-json" \
+    PDF2HTMLEX_PATH="./pdf2HtmlEx/usr/local/bin/pdf2htmlEX" \
+    PSTOPDF_PATH="/usr/bin/ps2pdf"
+#    PORT=8080
+
+COPY package*.json ./
+
+# Installing python 2.7
+RUN apk add python2
+
+COPY src ./src
+
+COPY *.js ./
+
+## Installing node.js packages
+RUN npm install --only=prod
+
+## Downloading and building pdf-to-json
+RUN git clone https://gitlab.com/formio/pdf-to-json.git
+WORKDIR /usr/src/rest-wrapper/pdf-to-json
+
 RUN rm CMakeLists.txt
 RUN mv CMakeLists.txt.alpine CMakeLists.txt
 RUN mkdir build
-WORKDIR /usr/src/rest-wrapper/poppler-pdf-to-json/build
+WORKDIR /usr/src/rest-wrapper/pdf-to-json/build
 RUN cmake ..
 RUN make
 
@@ -75,6 +74,6 @@ RUN wget https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/
     && tar -xvf pdf2HtmlEx.tar.gz  -C ./pdf2HtmlEx \
     && rm -f pdf2HtmlEx.tar.gz \
 
-EXPOSE 8080
+EXPOSE ${PORT}
 
 CMD [ "node", "main.js" ]
