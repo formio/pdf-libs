@@ -48,6 +48,7 @@ COPY package*.json ./
 # Installing python 2.7
 RUN apk add python2
 
+COPY docs ./docs
 COPY src ./src
 
 COPY *.js ./
