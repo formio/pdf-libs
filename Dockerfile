@@ -60,8 +60,6 @@ RUN npm install --only=prod
 RUN git clone https://gitlab.com/formio/pdf-to-json.git
 WORKDIR /usr/src/rest-wrapper/pdf-to-json
 
-RUN rm CMakeLists.txt
-RUN mv CMakeLists.txt.alpine CMakeLists.txt
 RUN mkdir build
 WORKDIR /usr/src/rest-wrapper/pdf-to-json/build
 RUN cmake ..
