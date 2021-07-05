@@ -6,6 +6,14 @@ const fs = require('fs');
 
 const {generateHtml} = require('../converters/pdf2html');
 
+/**
+ * Express endpoint.
+ * Performs pdf to html converting.
+ * Accepts file from req.filepath
+ * and sends html representation in response.
+ * @param req
+ * @param res
+ */
 const pdfToHtml = (req, res) => {
   const outputPath = path.join('pdf2html_tmpdir', `${uuid()}.html`);
   generateHtml(
