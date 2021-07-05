@@ -12,3 +12,6 @@ PDF-libs is rest-server that wraps PDFtoJSON and PDFtoHTMLEX utils
   
   `docker run --name pdf-libs1 -p 8080:8080 -e PORT=8080 pdf-libs`
 
+# Docs
+Interactive Swagger documentation is available on `/api-docs` endpoint
+
