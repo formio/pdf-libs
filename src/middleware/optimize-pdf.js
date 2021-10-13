@@ -23,6 +23,7 @@ const optimizePdf = (req, res, next) => {
       res.status(500).send('Error when optimizing PDF file');
     }
     req.filePath = filePath;
+    req.optimizedPdf = true;
     next();
   });
 };

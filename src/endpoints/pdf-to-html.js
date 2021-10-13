@@ -14,7 +14,7 @@ const {generateHtml} = require('../converters/pdf2html');
  * @param req
  * @param res
  */
-const pdfToHtml = (req, res) => {
+const pdfToHtml = (req, res, next) => {
   const outputPath = path.join('pdf2html_tmpdir', `${uuid()}.html`);
   generateHtml(
     req.filePath,
@@ -26,10 +26,12 @@ const pdfToHtml = (req, res) => {
     [],
     (err, fileName) => {
       if (err) {
-        res.status(500).send(err);
+        return req.optimizedPdf
+          ? res.status(500).send(err)
+          : next();
       }
       if (!fileName) {
-        res.status(500).send(new Error('Error when converting to html'));
+        return res.status(500).send(new Error('Error when converting to html'));
       }
       const resolvedFilePath = path.resolve(__dirname, '../../', fileName);
       res.sendFile(resolvedFilePath, null, (err) => {
