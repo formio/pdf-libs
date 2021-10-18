@@ -13,7 +13,7 @@ const pdfToJson = require('../endpoints/pdf-to-json');
 
 pdfRouter.use(getFileFromFormData, getFileFromBase64, getFileFromS3);
 
-pdfRouter.post('/pdf2html', optimizePdf, pdfToHtml);
+pdfRouter.post('/pdf2html', pdfToHtml, optimizePdf, pdfToHtml);
 pdfRouter.post('/pdf2json', pdfToJson);
 
 module.exports = pdfRouter;
