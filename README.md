@@ -16,3 +16,9 @@ PDF-libs is rest-server that wraps PDFtoJSON and PDFtoHTMLEX utils
 * Interactive Swagger documentation is available on `/api-docs` endpoint
 * Code documentation is at docs/index.html
 
+# Licensing
+This source code is licenced under the GPL, version 2 or version 3
+
+License text is available in files:
+* `COPYING` - for version 2
+* `COPYING3` - for version 3
