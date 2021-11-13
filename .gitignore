@@ -2,3 +2,4 @@
 .idea
 pydf2json
 pdf2HtmlEX
+.env
