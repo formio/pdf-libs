@@ -17,7 +17,7 @@ const pdfRouter = require('./src/routers/pdf-router');
 
 app.use(cors());
 app.get('/version', async (req, res) => {
-  const pdfToJsonVersion = (await execPromisified(`${config.popplerPdfToJsonPath} -v`)).stdout
+  const pdfToJsonVersion = (await execPromisified(`${config.popplerPdfToJsonPath} -v`)).stdout.trim();
   res.send({
     'PDF libs version': version,
     'PDF to JSON version': pdfToJsonVersion,
