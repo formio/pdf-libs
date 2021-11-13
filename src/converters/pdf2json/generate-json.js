@@ -2,9 +2,7 @@
 
 const config = require('../../config');
 
-const {exec} = require('child_process');
-const {promisify} = require('util');
-const execPromisified = promisify(exec);
+const execPromisified = require('../../utils/exec-promisified');
 
 /**
  * generateJson function performs pdf to formio conversion
