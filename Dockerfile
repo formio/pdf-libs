@@ -57,7 +57,7 @@ COPY *.js ./
 RUN npm install --only=prod
 
 ## Downloading and building pdf-to-json
-RUN git clone --depth 1 --branch 1.0.1-rc.1 https://gitlab.com/formio/pdf-to-json.git
+RUN git clone --depth 1 --branch 1.0.1-rc.2 https://gitlab.com/formio/pdf-to-json.git
 WORKDIR /usr/src/rest-wrapper/pdf-to-json
 
 RUN mkdir build
