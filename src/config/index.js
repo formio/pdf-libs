@@ -29,9 +29,12 @@ if (!psToPdfPath) {
   process.exit(1);
 }
 
+const hideFormfieldsPath = process.env.HIDE_FORMFIELDS_PATH;
+
 module.exports = {
   port,
   popplerPdfToJsonPath: path.join(__dirname, '../../', popplerPdfToJsonPath),
   pdf2htmlexPath: path.join(__dirname, '../../', pdf2htmlexPath),
-  psToPdfPath
+  psToPdfPath,
+  hideFormfieldsPath
 };

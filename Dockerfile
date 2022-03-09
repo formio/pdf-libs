@@ -11,15 +11,15 @@ RUN apk update \
     git \
     wget
 # Fonts
-RUN apk add --no-cache msttcorefonts-installer fontconfig \
-    && update-ms-fonts \
-# Google fonts
-    && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
-    && tar -xf gf.tar.gz \
-    && mkdir -p /usr/share/fonts/truetype/google-fonts \
-    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
-    && rm -f gf.tar.gz \
-    && rm -rf /fonts-main
+#RUN apk add --no-cache msttcorefonts-installer fontconfig \
+#    && update-ms-fonts \
+## Google fonts
+#    && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
+#    && tar -xf gf.tar.gz \
+#    && mkdir -p /usr/share/fonts/truetype/google-fonts \
+#    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
+#    && rm -f gf.tar.gz \
+#    && rm -rf /fonts-main
 
 RUN apk add --upgrade nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext \
         && rm -rf /var/lib/apt/lists/* \
@@ -40,7 +40,8 @@ RUN apk add --update poppler-qt5-dev
 WORKDIR /usr/src/rest-wrapper
 ENV POPPLER_PDF_TO_JSON="./pdf-to-json/build/poppler-pdf-to-json" \
     PDF2HTMLEX_PATH="./pdf2HtmlEx/usr/local/bin/pdf2htmlEX" \
-    PSTOPDF_PATH="/usr/bin/ps2pdf"
+    PSTOPDF_PATH="/usr/bin/ps2pdf" \
+    HIDE_FORMFIELDS_PATH="./cpp/hide-formfields/build/hide-formfields"
 #    PORT=8080
 
 COPY package*.json ./
@@ -50,6 +51,7 @@ RUN apk add python2
 
 COPY docs ./docs
 COPY src ./src
+COPY cpp ./cpp
 
 COPY *.js ./
 
@@ -59,9 +61,14 @@ RUN npm install --only=prod
 ## Downloading and building pdf-to-json
 RUN git clone --depth 1 --branch 1.0.1-rc.2 https://gitlab.com/formio/pdf-to-json.git
 WORKDIR /usr/src/rest-wrapper/pdf-to-json
-
 RUN mkdir build
 WORKDIR /usr/src/rest-wrapper/pdf-to-json/build
+RUN cmake ..
+RUN make
+
+WORKDIR /usr/src/rest-wrapper/cpp/hide-formfields
+RUN mkdir build
+WORKDIR /usr/src/rest-wrapper/cpp/hide-formfields/build
 RUN cmake ..
 RUN make
 
