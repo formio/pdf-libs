@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('./src/config');
+const config = require('./config');
 
 const fs = require('fs');
 const cors = require('cors');
@@ -8,21 +8,18 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
 const swaggerDocs = yaml.load('./docs/openapi/spec.yaml');
-const execPromisified = require('./src/utils/exec-promisified');
 const app = express();
 
 const version = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
 
-const pdfRouter = require('./src/routers/pdf-router');
+const pdfRouter = require('./src/pdf/router');
 
 app.use(cors());
-app.get('/version', async (req, res) => {
-  const pdfToJsonVersion = (await execPromisified(`${config.popplerPdfToJsonPath} -v`)).stdout.trim();
-  res.send({
-    'PDF libs version': version,
-    'PDF to JSON version': pdfToJsonVersion,
-  });
-})
+
+app.get('/version', async (__req, res) => {
+  res.send({version});
+});
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/pdf', pdfRouter);

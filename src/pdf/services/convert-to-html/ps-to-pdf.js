@@ -1,19 +1,9 @@
 'use strict';
 
 const {spawn} = require('child_process');
-const config = require('../../config');
+const {psToPdfPath} = require('../../../../config');
 const os = require('os');
 
-/**
- * psToPdf function used for pdf optimizing.
- * The function executes psToPdf cli application
- * from config.psToPdf.
- * Don't know why we need data-dir directory, but it is required
- * and don't move it.
- * @param {string} filePath
- * @param {string} toFile
- * @param {function(err, string)} done
- */
 const psToPdf = (filePath, toFile, done) => {
   try {
     // req.debug(`Optimizing PDF ${req.file.path}`);
@@ -26,7 +16,7 @@ const psToPdf = (filePath, toFile, done) => {
 
     // req.debug(`${config.psToPdf} ${commands.join(' ')}`);
     // req.cleanup.push(filePath);
-    spawn(config.psToPdfPath, commands, {
+    spawn(psToPdfPath, commands, {
       cwd: os.tmpdir()
     }).on('close', (code) => {
       if (code === 0) {

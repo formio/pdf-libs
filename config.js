@@ -6,14 +6,9 @@ require('dotenv').config();
 
 const path = require('path');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
-const popplerPdfToJsonPath = process.env.POPPLER_PDF_TO_JSON;
-
-if (!popplerPdfToJsonPath) {
-  console.error('POPPLER_PDF_TO_JSON must be provided');
-  process.exit(1);
-}
+console.log(process.env);
 
 const pdf2htmlexPath = process.env.PDF2HTMLEX_PATH;
 
@@ -29,12 +24,19 @@ if (!psToPdfPath) {
   process.exit(1);
 }
 
-const hideFormfieldsPath = process.env.HIDE_FORMFIELDS_PATH;
+const extractFormfieldsPath = process.env.EXTRACT_FORMFIELDS;
+
+if (!extractFormfieldsPath) {
+  console.error('POPPLER_PDF_TO_JSON must be provided');
+  process.exit(1);
+}
+
+const hideFormfieldsPath = process.env.HIDE_FORMFIELDS;
 
 module.exports = {
   port,
-  popplerPdfToJsonPath: path.join(__dirname, '../../', popplerPdfToJsonPath),
-  pdf2htmlexPath: path.join(__dirname, '../../', pdf2htmlexPath),
+  extractFormfieldsPath,
+  pdf2htmlexPath,
   psToPdfPath,
   hideFormfieldsPath
 };

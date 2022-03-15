@@ -2,24 +2,20 @@
 
 const formidable = require('formidable');
 
-/**
- * Express middleware.
- * Extracts file from multipart/formdata request, saves it to the default temp directory
- * and sets request's filepath property to the path to the file.
- * @param req
- * @param res
- * @param next
- */
 const getFileFromFormData = (req, res, next) => {
   const form = new formidable.IncomingForm();
+  console.log(form);
   form.parse(req, async (err, __, files) => {
     if (err) {
+      console.log(err);
       res.status(400).send(err);
     }
     if (!files.pdf) {
+      console.log('No files were uploaded');
       res.status(400).send('No files were uploaded');
     }
     req.filePath = files.pdf.path;
+    console.log(req.filePath);
     next();
   });
 };
