@@ -7,7 +7,6 @@ const {exec} = require('../../utils');
 
 const generateHtml = async (filePath, toFile, params, commands) => {
   // try {
-  console.log({filePath, toFile});
   const {zoom, dpi} = params;
   const args = commands.concat([
     '--no-drm',

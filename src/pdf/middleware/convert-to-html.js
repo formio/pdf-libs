@@ -29,8 +29,6 @@ const convertToHtml = async (req, res, next) => {
     if (err) {
       console.log(err);
     }
-    console.log({outputPath});
-    // fs.unlink(outputPath, () => {});
   });
 };
 

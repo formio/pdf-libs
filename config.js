@@ -4,11 +4,7 @@
 
 require('dotenv').config();
 
-const path = require('path');
-
 const port = process.env.PORT || 8080;
-
-console.log(process.env);
 
 const pdf2htmlexPath = process.env.PDF2HTMLEX_PATH;
 
