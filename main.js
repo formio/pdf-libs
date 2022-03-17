@@ -2,12 +2,13 @@
 
 const config = require('./config');
 
+const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
-const swaggerDocs = yaml.load('./docs/openapi/spec.yaml');
+const swaggerDocs = yaml.load(path.join(__dirname, './docs/openapi/spec.yaml'));
 const app = express();
 
 const version = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
