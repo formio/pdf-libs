@@ -4,7 +4,7 @@ const formidable = require('formidable');
 
 const getFileFromFormData = (req, res, next) => {
   const form = new formidable.IncomingForm();
-  console.log(form);
+  req.cleanup = [];
   form.parse(req, async (err, __, files) => {
     if (err) {
       console.log(err);
@@ -15,7 +15,7 @@ const getFileFromFormData = (req, res, next) => {
       res.status(400).send('No files were uploaded');
     }
     req.filePath = files.pdf.path;
-    console.log(req.filePath);
+    req.cleanup.push(files.pdf.path);
     next();
   });
 };

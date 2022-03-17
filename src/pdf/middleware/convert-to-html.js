@@ -10,6 +10,7 @@ const {generateHtml} = require('../services/convert-to-html');
 const convertToHtml = async (req, res, next) => {
   const outputFileName = `${uuid()}.html`;
   const outputPath = path.join(tmpdir, `${outputFileName}`);
+  req.cleanup.push(outputPath);
   try {
     await generateHtml(
       req.filePath,

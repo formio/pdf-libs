@@ -7,6 +7,7 @@ const {psToPdf} = require('../services/convert-to-html');
 
 const optimizePdf = (req, res, next) => {
   const outputPath = path.join(os.tmpdir(), `${uuid()}.pdf`);
+  req.cleanup.push(outputPath);
   psToPdf(req.filePath, outputPath, (err, filePath) => {
     if (err) {
       res.status(500).send(err);
