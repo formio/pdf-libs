@@ -16,10 +16,11 @@ set(LIB_DIR /lib/x86_64-linux-gnu)
 
 set(INCLUDE_POPPLER /usr/include/poppler/cpp)
 set(INCLUDE_POPPLER_QT /usr/include/poppler/qt5)
-set(INCLUDE_QT /usr/include/QtCore)
+set(INCLUDE_QT /usr/include/qt5)
+set(INCLUDE_QT_CORE /usr/include/qt5/QtCore)
 
 add_executable(extract-formfields main.cpp version.h src/document.cpp src/page.cpp src/field.cpp src/fields/button-field.cpp src/fields/text-field.cpp src/fields/choice-field.cpp)
 
-include_directories(${INCLUDE_POPPLER} ${INCLUDE_POPPLER_QT} ${INCLUDE_QT} ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/fields include)
+include_directories(${INCLUDE_POPPLER} ${INCLUDE_POPPLER_QT} ${INCLUDE_QT} ${INCLUDE_QT_CORE} ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/fields include)
 
 target_link_libraries(extract-formfields ${qt} ${poppler} ${poppler-qt})

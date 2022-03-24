@@ -1,4 +1,5 @@
-FROM node:14.16.0-alpine3.12
+FROM alpine:latest
+MAINTAINER  Form.io <support@form.io>
 
 # Installing dependencies
 RUN apk update \
@@ -26,7 +27,6 @@ RUN apk add --upgrade nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium 
         && rm -rf /var/lib/apt/lists/* \
         && rm /var/cache/apk/*
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/community/" >> /etc/apk/repositories
 
 RUN apk update
 

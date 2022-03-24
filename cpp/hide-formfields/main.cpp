@@ -33,5 +33,7 @@ int main(int argc, char **argv) {
 
     saveToFile(toFile, doc);
 
+    delete page;
+    delete doc;
     return 0;
 }
