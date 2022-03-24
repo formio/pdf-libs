@@ -1,21 +1,21 @@
 'use strict';
 
-const fs = require('fs-extra');
+const fs = require('fs/promises');
 const _ = require('lodash');
-module.exports = (req, __res, next) => {
-  if (!req.cleanup || !req.cleanup.length) {
-    return next();
-  }
-
-  // Cleanup all files.
-  _.each(req.cleanup, (file) => {
-    try {
-      console.log(`Deleting file ${file}`);
-      fs.unlink(file);
-    } catch (err) {
-      console.log(`ERROR: Deleting File ${err.message || err}`);
-      console.log(err);
+module.exports = (req, res, next) => {
+  res.on('finish', () => {
+    if (!req.cleanup || !req.cleanup.length) {
+      return;
     }
+
+    // Cleanup all files.
+    _.each(req.cleanup, async (file) => {
+      try {
+        await fs.unlink(file);
+      } catch (err) {
+        req.debug(`Can't delete file: '${err.message || err}`);
+      }
+    });
   });
   return next();
 };

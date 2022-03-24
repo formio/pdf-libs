@@ -8,9 +8,10 @@ const {
   optimizePdf,
   convertToHtml,
   getFormfields,
-  cleanup
+  cleanup,
 } = require('./middleware');
 
+r.use(cleanup);
 r.use(getFileFromFormData);
 
 // r.post('/pdf2html', hideFormfields, optimizePdf, convertToHtml);
