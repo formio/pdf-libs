@@ -7,11 +7,11 @@ const getFileFromFormData = (req, res, next) => {
   req.cleanup = [];
   form.parse(req, async (err, __, files) => {
     if (err) {
-      console.log(err);
+      req.debug(err);
       res.status(400).send(err);
     }
     if (!files.pdf) {
-      console.log('No files were uploaded');
+      req.debug('No files were uploaded');
       res.status(400).send('No files were uploaded');
     }
     req.filePath = files.pdf.path;

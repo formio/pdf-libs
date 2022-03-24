@@ -6,6 +6,7 @@ const {v4: uuid} = require('uuid');
 const {psToPdf} = require('../services/convert-to-html');
 
 const optimizePdf = (req, res, next) => {
+  req.debug('Optimizing PDF');
   const outputPath = path.join(os.tmpdir(), `${uuid()}.pdf`);
   req.cleanup.push(outputPath);
   psToPdf(req.filePath, outputPath, (err, filePath) => {

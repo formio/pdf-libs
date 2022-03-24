@@ -6,6 +6,7 @@ const hideFormfields = require('./hide-formfields');
 const convertToHtml = require('./convert-to-html');
 const getFormfields = require('./get-formfields');
 const cleanup = require('./cleanup');
+const debug = require('./debug');
 
 module.exports = {
   getFileFromFormData,
@@ -14,4 +15,5 @@ module.exports = {
   convertToHtml,
   getFormfields,
   cleanup,
+  debug
 };
