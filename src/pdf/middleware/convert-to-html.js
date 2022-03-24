@@ -2,7 +2,6 @@
 
 const path = require('path');
 const {v4: uuid} = require('uuid');
-const fs = require('fs');
 const tmpdir = require('os').tmpdir();
 
 const {generateHtml} = require('../services/convert-to-html');
@@ -22,12 +21,13 @@ const convertToHtml = async (req, res, next) => {
       ['--dest-dir', tmpdir]
     );
   } catch (err) {
-    console.log(err);
-    return res.status(500).send(err);
+    return req.optimizedPdf
+      ? res.status(500).send(err)
+      : next();
   }
   return res.sendFile(outputPath, (err) => {
     if (err) {
-      console.log(err);
+      req.debug(err);
     }
   });
 };
