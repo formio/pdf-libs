@@ -5,9 +5,7 @@ const config = require('./config');
 const path = require('path');
 const cors = require('cors');
 const express = require('express');
-const swaggerUi = require('swagger-ui-express');
-const yaml = require('yamljs');
-const swaggerDocs = yaml.load(path.join(__dirname, './docs/openapi/spec.yaml'));
+
 const app = express();
 
 const {version} = require('./package.json');
@@ -19,8 +17,6 @@ app.use(cors());
 app.get('/version', async (__req, res) => {
   res.send({version});
 });
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/pdf', pdfRouter);
 
