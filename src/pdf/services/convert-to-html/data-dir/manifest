@@ -1,0 +1,68 @@
+# pdf2htmlEX manifest
+# Copyright (C) 2012,2013 Lu Wang <coolwanglu@gmail.com>
+#
+# Syntax
+# The first char of each line is the command
+# Empty lines are ignored
+#
+# # - comment
+# @ - embed or link to a file from data dir, depending on the values of --embed-*** options
+# $ - special use for pdf2htmlEX
+#
+# Special
+# If a line contains """ only, all text until next """ will be included
+# #TEST_IGNORE_BEGIN & #TEST_IGNORE_END are used for unittest
+
+#############
+# Declaration - Do not modify
+"""
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta name="generator" content="pdf2htmlEX"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+"""
+
+#############
+# Styles
+# base CSS styles - Do not modify
+@base.min.css
+
+# fancy CSS styles - Optional
+@fancy.min.css
+
+# PDF specific CSS styles - Do not modify
+$css
+
+#############
+# Do not modify
+"""
+<title></title>
+<link rel="stylesheet" type="text/css" href="https://form.io/pdf/dist/formio-pdf.min.css"></link>
+</head>
+<body>
+"""
+
+#############
+# The container of PDF pages
+# check base.css for an example and requirements of its CSS styles
+"""
+<div id="page-container">
+<div class="loader-wrapper" id="pdf-loader"><div class="loader text-center"></div></div>
+"""
+$pages
+"""
+</div>
+"""
+
+#############
+# Do not modify
+"""
+</body>
+<script src="https://form.io/pdf/dist/formio-pdf.min.js"></script>
+<script src="https://unpkg.com/seamless@latest/build/seamless.child.min.js"></script>
+</html>
+"""
+
+# MANIFEST END
