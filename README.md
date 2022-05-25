@@ -1,5 +1,5 @@
 # Description
-PDF-libs is rest-server that wraps PDFtoJSON and PDFtoHTMLEX utils
+pdf-libs is REST-server that wraps extract-formfields and PDFtoHTMLEX utils
 
 # Running without docker
 * uncomment variables in .env file
@@ -13,12 +13,9 @@ PDF-libs is rest-server that wraps PDFtoJSON and PDFtoHTMLEX utils
   `docker run --name pdf-libs1 -p 8080:8080 -e PORT=8080 pdf-libs`
 
 # Docs
-* Interactive Swagger documentation is available on `/api-docs` endpoint
 * Code documentation is at docs/index.html
 
 # Licensing
-This source code is licenced under the GPL, version 2 or version 3
+This source code is licenced under the GPL, version 3
 
-License text is available in files:
-* `COPYING` - for version 2
-* `COPYING3` - for version 3
+License text is available in LICENSE file
