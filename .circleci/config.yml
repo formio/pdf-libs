@@ -1,0 +1,60 @@
+version: 2.1
+orbs:
+  snyk: snyk/snyk@0.0.13
+jobs:
+  docker:
+    environment:
+      IMAGE_PATH: formio/pdf-libs
+    machine:
+      enabled: true
+      image: circleci/classic:edge
+    steps:
+      - run:
+          name: Enable docker experimental features.
+          command: |
+            sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
+            sudo service docker restart
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: docker build --no-cache -t $IMAGE_PATH -f deployment/docker/Dockerfile .
+      - run:
+          name: deploy
+          command: |
+            if [[ $CIRCLE_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag $IMAGE_PATH $IMAGE_PATH:$CIRCLE_TAG
+              docker push $IMAGE_PATH:$CIRCLE_TAG
+              if [[ $CIRCLE_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                docker push $IMAGE_PATH
+              fi
+            fi
+      - run:
+          name: push_ecr
+          command: |
+            if [[ $CIRCLE_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+              docker login -u AWS -p $(aws ecr-public get-login-password --region us-east-1) public.ecr.aws/formio
+              docker tag $IMAGE_PATH public.ecr.aws/$IMAGE_PATH:$CIRCLE_TAG
+              docker push public.ecr.aws/$IMAGE_PATH:$CIRCLE_TAG
+            fi
+      - snyk/scan:
+          docker-image-name: $IMAGE_PATH
+          fail-on-issues: false
+          monitor-on-build: true
+          organization: ${SNYK_CICD_ORGANIZATION}
+          project: ${IMAGE_PATH}:${CIRCLE_TAG}
+          token-variable: SNYK_TOKEN
+
+workflows:
+  version: 2.1
+  do-build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+.*/
+            branches:
+              ignore: /.*/
