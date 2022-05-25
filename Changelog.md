@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.0
+### Changed
+- extract-formfields tool (ex PDF to JSON) merged into pdf-libs
+- Swagger documentation removed due to CVE
+- Files cleanup added
+- Non optimized pdfs handling fixed
+- Edpoints renamed
+  - `/pdf/pdf2html` -> `/pdf/convertToHtml`
+  - `/pdf/pdf2json` -> `/pdf/getFormfields`
+
 # 1.0.2-rc.2
 ### Changed
 - [PDF to JSON](https://gitlab.com/formio/pdf-to-json) version updated to [1.0.1-rc.2](https://gitlab.com/formio/pdf-to-json/-/tree/1.0.1-rc.2)
