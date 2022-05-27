@@ -52,7 +52,7 @@ workflows:
   version: 2.1
   do-build:
     jobs:
-      - build:
+      - docker:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+.*/
