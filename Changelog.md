@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.1
+### Changed
+- poppler updated to 22.09.0 to resolve CVE-2022-38784
+- build sctipts filemode changed to more allowing
+
 # 2.0.0
 ### Changed
 - extract-formfields tool (ex PDF to JSON) merged into pdf-libs
