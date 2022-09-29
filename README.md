@@ -7,10 +7,10 @@ pdf-libs is REST-server that wraps extract-formfields and PDFtoHTMLEX utils
 * run `node main`
 
 # Running with docker
-* build an image: `docker build . --tag=pdf-libs`
-* run a container with name and port you need: 
+* pull the image: `docker pull formio/pdf-libs`
+* run a container with name and port you need:
   
-  `docker run --name pdf-libs1 -p 8080:8080 -e PORT=8080 pdf-libs`
+  `docker run -d --name pdf-libs -p 8080:8080 -e PORT=8080 formio/pdf-libs`
 
 # Docs
 * Code documentation is at docs/index.html
