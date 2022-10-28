@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.2
+### Changed
+- nodejs updated to resolve CVE-2022-32213
+
 # 2.0.1
 ### Changed
 - poppler updated to 22.09.0 to resolve CVE-2022-38784
