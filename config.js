@@ -29,10 +29,13 @@ if (!extractFormfieldsPath) {
 
 const hideFormfieldsPath = process.env.HIDE_FORMFIELDS;
 
+const htmlGenerationTimeout = Number(process.env.TIMEOUT);
+
 module.exports = {
   port,
   extractFormfieldsPath,
   pdf2htmlexPath,
   psToPdfPath,
-  hideFormfieldsPath
+  hideFormfieldsPath,
+  htmlGenerationTimeout
 };
