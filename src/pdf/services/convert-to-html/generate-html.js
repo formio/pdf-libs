@@ -16,10 +16,10 @@ const generateHtml = async (filePath, toFile, params, commands) => {
     `${__dirname}/data-dir`,
     '--zoom',
     zoom,
-    // '--dpi',
-    // dpi,
-    // '--quiet',
-    // '1',
+    '--dpi',
+    dpi,
+    '--quiet',
+    '1',
     filePath,
     toFile
   ]);
