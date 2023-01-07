@@ -1,9 +1,8 @@
 'use strict';
 
-/* eslint-disable no-console */
+const {spawn} = require('child_process');
 
-const {pdf2htmlexPath} = require('../../../../config');
-const {exec} = require('../../utils');
+const {pdf2htmlexPath, htmlGenerationTimeout} = require('../../../../config');
 
 const generateHtml = async (filePath, toFile, params, commands) => {
   // try {
@@ -17,26 +16,26 @@ const generateHtml = async (filePath, toFile, params, commands) => {
     `${__dirname}/data-dir`,
     '--zoom',
     zoom,
-    '--dpi',
-    dpi,
-    '--quiet',
-    '1',
+    // '--dpi',
+    // dpi,
+    // '--quiet',
+    // '1',
     filePath,
     toFile
   ]);
-  // return new Promise((resolve, reject) => {
-  //   spawn(pdf2htmlexPath, args)
-  //     .on('close', (code) => {
-  //       if (code === 0) {
-  //         resolve(toFile);
-  //       } else {
-  //         reject(new Error('ERROR: Converting pdf to html'));
-  //       }
-  //     }).on('error', (err) => {
-  //       reject(err.message || err, null);
-  //     });
-  // });
-  await exec(`${pdf2htmlexPath} ${args.join(' ')}`);
+  return new Promise((resolve, reject) => {
+    spawn(pdf2htmlexPath, args, {timeout: htmlGenerationTimeout})
+      .on('close', (code) => {
+        if (code === 0) {
+          resolve(toFile);
+        } else {
+          reject(new Error('ERROR: Converting pdf to html'));
+        }
+      })
+      .on('error', (err) => {
+        reject(err.message || err, null);
+      });
+  });
 };
 
 module.exports = generateHtml;
