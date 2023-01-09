@@ -1,9 +1,9 @@
 'use strict';
 
-const {pdf2htmlexPath, htmlGenerationTimeout} = require('../../../../config');
+const {pdf2htmlexPath} = require('../../../../config');
 const {exec} = require('../../utils');
 
-const generateHtml = async (filePath, toFile, params, commands) => {
+const generateHtml = async (filePath, toFile, params, commands, timeout) => {
   // try {
   const {zoom, dpi} = params;
   const args = commands.concat([
@@ -22,7 +22,7 @@ const generateHtml = async (filePath, toFile, params, commands) => {
     filePath,
     toFile
   ]);
-  await exec(`${pdf2htmlexPath} ${args.join(' ')}`, {timeout: htmlGenerationTimeout});
+  await exec(`${pdf2htmlexPath} ${args.join(' ')}`, {timeout});
 };
 
 module.exports = generateHtml;
