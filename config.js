@@ -32,7 +32,8 @@ const hideFormfieldsPath = process.env.HIDE_FORMFIELDS;
 // 7 seconds seems like a sensible default I guess? We don't want PDFs that don't need postscript
 // optimization to be optimized in this way, but we also want to stay under common reverse proxy
 // timeout configurations so we don't receive a 504
-const htmlGenerationTimeout = process.env.TIMEOUT ? process.env.TIMEOUT : 7000;
+const htmlGenerationTimeout = process.env.HTML_GENERATION_TIMEOUT
+  ? process.env.HTML_GENERATION_TIMEOUT : 7000;
 
 module.exports = {
   port,
