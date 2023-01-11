@@ -1,12 +1,12 @@
 {
   "root": true,
-  "extends": "airbnb-base/legacy",
+  "extends":  "eslint-config-formio",
   "env": {
     "node": true,
     "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2020
   },
   "rules": {
     "arrow-parens": [2, "always"],

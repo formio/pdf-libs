@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node main",
     "dev": "nodemon main",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,10 +22,11 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
-    "superagent": "^6.1.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-config-formio": "^1.1.4",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7",
+    "superagent": "^6.1.0"
   }
 }
