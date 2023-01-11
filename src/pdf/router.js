@@ -4,7 +4,6 @@ const r = require('express').Router();
 
 const {
   getFileFromFormData,
-  hideFormfields,
   optimizePdf,
   convertToHtml,
   getFormfields,
