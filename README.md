@@ -15,6 +15,12 @@ pdf-libs is REST-server that wraps extract-formfields and PDFtoHTMLEX utils
 ## M1 Mac
   * `docker run -d --name pdf-libs -p 8080:8080 -e PORT=8080 --platform linux/amd64 formio/pdf-libs`
 
+# Environment variables
+| Variable                | Description                                                                                                                                               | Default value |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| PORT                    | Port, which service will use                                                                                                                              | 8080          |
+| HTML_GENERATION_TIMEOUT | Primary timeout in milliseconds for html generation                                                                                                                       | 7000          |
+| HTML_GENERATION_BACKOFF | Backoff timeout in milliseconds for html generation. Its sum with primary timeout will be used for second try after postscript optimisation in case when first try failed | 23000         |
 # Building
   * `docker build -t pdf-libs -f deployment/docker/Dockerfile .`
 
