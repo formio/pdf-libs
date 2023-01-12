@@ -14,7 +14,7 @@ RUN apk update \
     wget \
     && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
     && apk add --upgrade \
-    nodejs npm nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext\
+    nodejs npm yarn nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext\
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
@@ -75,8 +75,9 @@ ENV PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
 # End installing third-party tools
 
 # Installing node.js packages
-COPY package*.json ./
-RUN npm install --only=prod
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install --prod
 
 # Adding sources
 COPY src ./src
