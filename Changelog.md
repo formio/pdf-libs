@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.3
+- fixed HTML generation hang up for some PDFs
+- basic linting added
+- some dependecies updated
 # 2.0.2
 ### Changed
 - nodejs updated to resolve CVE-2022-32213
