@@ -6,7 +6,8 @@ const getFormfields = async (req, res) => {
   try {
     const jsonOutput = await extractFormfields(req.filePath);
     res.json(jsonOutput);
-  } catch (err) {
+  }
+  catch (err) {
     res.status(500).send(err);
   }
 };

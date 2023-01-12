@@ -24,7 +24,8 @@ const convertToHtml = async (req, res, next) => {
       ['--dest-dir', tmpdir],
       calculatedTimeout
     );
-  } catch (err) {
+  }
+  catch (err) {
     return req.optimizedPdf
       ? res.status(500).send(err)
       : next();

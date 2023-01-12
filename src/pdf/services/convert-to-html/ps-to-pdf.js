@@ -22,14 +22,16 @@ const psToPdf = (filePath, toFile, done) => {
       if (code === 0) {
         // req.debug(`Done PDF optimization => ${filePath}`);
         done(null, toFile);
-      } else {
+      }
+      else {
         done(new Error('ERROR: Optimizing PDF'), null);
       }
     }).on('error', (err) => {
       // req.debug(`ERROR: Optimizing PDF: ${err.message || err.toString()}`);
       done(err, null);
     });
-  } catch (err) {
+  }
+  catch (err) {
     done(err, null);
     // req.debug(`ERROR: Optimizing PDF: ${err.message || err.toString()}`);
   }

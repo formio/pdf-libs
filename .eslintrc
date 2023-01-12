@@ -15,6 +15,7 @@
     "no-unused-vars": [2, {"args": "all", "argsIgnorePattern": "^__", "varsIgnorePattern": "^__"}],
     "no-use-before-define": 0,
     "object-curly-spacing": [2, "never"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "space-before-function-paren": ["error", "always"]
   }
 }

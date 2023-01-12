@@ -12,7 +12,8 @@ module.exports = (req, res, next) => {
     _.each(req.cleanup, async (file) => {
       try {
         await fs.unlink(file);
-      } catch (err) {
+      }
+      catch (err) {
         req.debug(`Can't delete file: '${err.message || err}`);
       }
     });
