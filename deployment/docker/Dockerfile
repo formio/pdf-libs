@@ -10,6 +10,8 @@ RUN apk update \
     ttf-freefont \
     gnu-libiconv-dev \
     libvpx \
+    dumb-init \
+    git \
     wget \
     && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
     && apk add --upgrade \
