@@ -27,6 +27,6 @@
     "eslint-config-formio": "^1.1.4",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7",
-    "superagent": "^6.1.0"
+    "superagent": "^8.0.9"
   }
 }
