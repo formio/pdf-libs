@@ -1,16 +1,15 @@
-FROM alpine:latest
-MAINTAINER  Form.io <support@form.io>
+FROM alpine:3.12.12
+LABEL maintainer="Form.io <support@form.io>"
 
 # Installing dependencies
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
     apk-tools \
+    cmake \
     ttf-freefont \
     gnu-libiconv-dev \
     libvpx \
-    dumb-init \
-    git \
     wget \
     && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
     && apk add --upgrade \
