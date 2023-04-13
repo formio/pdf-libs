@@ -15,7 +15,7 @@ RUN apk update \
     wget \
     && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
     && apk add --upgrade \
-    nodejs npm yarn nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext\
+    nodejs npm yarn nghttp2 nghttp2-libs libxslt libass cairo libx11 ghostscript poppler-data poppler-utils gettext\
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
