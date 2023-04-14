@@ -1,0 +1,28 @@
+FROM alpine:3.12.12
+
+# Install pdf2htmlEX
+ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-alpine-3.12.0-x86_64.tar.gz \
+    PDF2HTMLEX=pdf2htmlEX-0.18.8.rc1-master-20200630-alpine-3.12.0-x86_64.tar.gz
+
+RUN apk update &&\
+    apk upgrade &&\
+    apk add --upgrade zlib
+
+RUN apk add --no-cache --virtual .build-deps curl &&\
+    apk add --no-cache \
+    libstdc++          \
+    libgcc             \
+    gnu-libiconv       \
+    gettext            \
+    glib               \
+    freetype           \
+    fontconfig         \
+    cairo=1.17.6       \
+    libpng             \
+    libjpeg-turbo      \
+    libxml2          &&\
+    curl -fsSLO "$PDF2HTMLEX_URL" &&\
+    tar xvf "$PDF2HTMLEX" -C / &&\
+    apk del .build-deps
+
+ENTRYPOINT ["/bin/sh"]
