@@ -17,7 +17,7 @@ RUN apk add --no-cache --virtual .build-deps curl &&\
     glib               \
     freetype           \
     fontconfig         \
-    cairo=1.17.6       \
+    cairo==1.17.6       \
     libpng             \
     libjpeg-turbo      \
     libxml2          &&\
