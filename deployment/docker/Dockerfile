@@ -1,7 +1,7 @@
-FROM alpine:3.12.12
+FROM node:lts-alpine:3.12
 LABEL maintainer="Form.io <support@form.io>"
 
-# Installing dependencies
+# Install dependencies
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
@@ -13,38 +13,36 @@ RUN apk update \
     dumb-init \
     git \
     wget \
-    && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
-    && apk add --upgrade \
-    nodejs npm yarn nghttp2 nghttp2-libs libxslt libass cairo libx11 ghostscript poppler-data poppler-utils gettext\
+    yarn \
+    nghttp2 \
+    nghttp2-libs \
+    libxslt \
+    libass \
+    cairo \
+    libx11 \
+    ghostscript \
+    poppler-data \
+    poppler-utils \
+    gettext \
+    build-base \
+    poppler \
+    qt5-qtbase \
+    qt5-qtbase-dev \
+    poppler-qt5 \
+    poppler-dev \
+    poppler-qt5-dev \
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
-# Fonts
+# Install fonts
 RUN apk add --no-cache msttcorefonts-installer fontconfig \
     && update-ms-fonts \
-# Google fonts
     && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
     && tar -xf gf.tar.gz \
     && mkdir -p /usr/share/fonts/truetype/google-fonts \
     && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
     && rm -f gf.tar.gz \
     && rm -rf /fonts-main
-
-RUN apk add --upgrade nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext \
-        && rm -rf /var/lib/apt/lists/* \
-        && rm /var/cache/apk/*
-
-
-RUN apk update
-
-RUN apk add --update build-base
-RUN apk add --update poppler
-RUN apk add --update qt5-qtbase
-RUN apk add --update qt5-qtbase-dev
-RUN apk add --update poppler-qt5
-RUN apk add --update poppler-dev
-RUN apk add --update poppler-qt5-dev
-# End installing dependencies
 
 ENV APP_ROOT=/usr/src/pdf-libs
 WORKDIR $APP_ROOT
