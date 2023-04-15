@@ -1,4 +1,4 @@
-FROM alpine:3.12.12
+FROM alpine:3.12.11
 LABEL maintainer="Form.io <support@form.io>"
 
 ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-alpine-3.12.0-x86_64.tar.gz \
@@ -28,46 +28,47 @@ RUN apk upgrade && \
     apk del .build-deps
 
 # Installing edge dependencies
-RUN sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
-    apk add --upgrade nodejs npm yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript poppler-data poppler-utils && \
+RUN apk add --upgrade nodejs npm yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/apk/*
+# sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
+
 
 # Installing fonts
-RUN apk add --no-cache msttcorefonts-installer && \
-    update-ms-fonts && \
-    wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
-    tar -xf gf.tar.gz && \
-    mkdir -p /usr/share/fonts/truetype/google-fonts && \
-    find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 && \
-    rm -f gf.tar.gz && \
-    rm -rf /fonts-main
+# RUN apk add --no-cache msttcorefonts-installer && \
+#    update-ms-fonts && \
+#    wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
+#    tar -xf gf.tar.gz && \
+#    mkdir -p /usr/share/fonts/truetype/google-fonts && \
+#    find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 && \
+#    rm -f gf.tar.gz && \
+#    rm -rf /fonts-main
 
 # Installing poppler
-RUN apk update && \
-    apk add --update build-base && \
-    apk add --update poppler && \
-    apk add --update qt5-qtbase && \
-    apk add --update qt5-qtbase-dev && \
-    apk add --update poppler-qt5 && \
-    apk add --update poppler-dev && \
-    apk add --update poppler-qt5-dev && \
-    rm -rf /var/cache/apk/*
+#RUN apk update && \
+#    apk add --update build-base && \
+#    apk add --update poppler && \
+#    apk add --update qt5-qtbase && \
+#    apk add --update qt5-qtbase-dev && \
+#    apk add --update poppler-qt5 && \
+#    apk add --update poppler-dev && \
+#    apk add --update poppler-qt5-dev && \
+#    rm -rf /var/cache/apk/*
 
 ENV APP_ROOT=/usr/src/pdf-libs
 WORKDIR $APP_ROOT
 
 # Building C++ tools
-COPY cpp ./cpp
+#COPY cpp ./cpp
 ## Building extract-formfields tool
-ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
-WORKDIR $EXTRACT_FORMFIELDS_ROOT
-RUN ${EXTRACT_FORMFIELDS_ROOT}/build.sh
+#ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
+#WORKDIR $EXTRACT_FORMFIELDS_ROOT
+#RUN ${EXTRACT_FORMFIELDS_ROOT}/build.sh
 
 ## Building hide-formfields tool
-ARG HIDE_FORMFIELDS_ROOT=$APP_ROOT/cpp/hide-formfields
-WORKDIR $HIDE_FORMFIELDS_ROOT
-RUN ${HIDE_FORMFIELDS_ROOT}/build.sh
+#ARG HIDE_FORMFIELDS_ROOT=$APP_ROOT/cpp/hide-formfields
+#WORKDIR $HIDE_FORMFIELDS_ROOT
+#RUN ${HIDE_FORMFIELDS_ROOT}/build.sh
 # End building C++ tools
 
 # Instantiate environment variables
