@@ -1,4 +1,4 @@
-FROM alpine:3.12.11
+FROM node:lts-alpine3.12
 LABEL maintainer="Form.io <support@form.io>"
 
 ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-alpine-3.12.0-x86_64.tar.gz \
@@ -28,7 +28,7 @@ RUN apk upgrade && \
     apk del .build-deps
 
 # Installing edge dependencies
-RUN apk add --upgrade nodejs npm yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript && \
+RUN apk add -u yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/apk/*
 # sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
