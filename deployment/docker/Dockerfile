@@ -28,7 +28,7 @@ RUN apk upgrade && \
     apk del .build-deps
 
 # Installing edge dependencies
-RUN apk add -u yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript && \
+RUN apk add yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscript && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/apk/*
 # sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
@@ -46,13 +46,13 @@ RUN apk add -u yarn nghttp2 nghttp2-libs libxslt libass libx11 chromium ghostscr
 
 # Installing poppler
 #RUN apk update && \
-#    apk add --update build-base && \
-#    apk add --update poppler && \
-#    apk add --update qt5-qtbase && \
-#    apk add --update qt5-qtbase-dev && \
-#    apk add --update poppler-qt5 && \
-#    apk add --update poppler-dev && \
-#    apk add --update poppler-qt5-dev && \
+#    apk add build-base && \
+#    apk add poppler && \
+#    apk add qt5-qtbase && \
+#    apk add qt5-qtbase-dev && \
+#    apk add poppler-qt5 && \
+#    apk add poppler-dev && \
+#    apk add poppler-qt5-dev && \
 #    rm -rf /var/cache/apk/*
 
 ENV APP_ROOT=/usr/src/pdf-libs
