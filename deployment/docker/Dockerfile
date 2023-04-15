@@ -1,4 +1,4 @@
-FROM node:lts-alpine:3.12
+FROM node:lts-alpine3.12
 LABEL maintainer="Form.io <support@form.io>"
 
 # Install dependencies
