@@ -59,16 +59,16 @@ ENV APP_ROOT=/usr/src/pdf-libs
 WORKDIR $APP_ROOT
 
 # Building C++ tools
-#COPY cpp ./cpp
+COPY cpp ./cpp
 ## Building extract-formfields tool
-#ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
-#WORKDIR $EXTRACT_FORMFIELDS_ROOT
-#RUN ${EXTRACT_FORMFIELDS_ROOT}/build.sh
+ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
+WORKDIR $EXTRACT_FORMFIELDS_ROOT
+RUN ${EXTRACT_FORMFIELDS_ROOT}/build.sh
 
 ## Building hide-formfields tool
-#ARG HIDE_FORMFIELDS_ROOT=$APP_ROOT/cpp/hide-formfields
-#WORKDIR $HIDE_FORMFIELDS_ROOT
-#RUN ${HIDE_FORMFIELDS_ROOT}/build.sh
+ARG HIDE_FORMFIELDS_ROOT=$APP_ROOT/cpp/hide-formfields
+WORKDIR $HIDE_FORMFIELDS_ROOT
+RUN ${HIDE_FORMFIELDS_ROOT}/build.sh
 # End building C++ tools
 
 # Instantiate environment variables
