@@ -34,6 +34,8 @@ RUN apk update \
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
+RUN npm update -g npm
+
 # Install fonts
 RUN apk add --no-cache msttcorefonts-installer fontconfig \
     && update-ms-fonts \
