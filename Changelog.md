@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.5-rc.1
+- updated Dockerfile to eliminate edge dependencies
+
+# 2.0.4
+- do not use
+
 # 2.0.3
 - fixed HTML generation hang up for some PDFs
 - basic linting added
