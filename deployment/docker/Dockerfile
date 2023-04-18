@@ -31,6 +31,7 @@ RUN apk update \
     poppler-qt5 \
     poppler-dev \
     poppler-qt5-dev \
+    openssh \
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
