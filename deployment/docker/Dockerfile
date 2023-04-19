@@ -1,49 +1,86 @@
-FROM alpine:3.15
-MAINTAINER  Form.io <support@form.io>
+FROM node:lts-alpine3.12
+LABEL maintainer="Form.io <support@form.io>"
 
-# Installing dependencies
+# Install dependencies
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
     apk-tools \
+    cmake \
     ttf-freefont \
     gnu-libiconv-dev \
     libvpx \
     dumb-init \
     git \
     wget \
-    && sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories \
-    && apk add --upgrade \
-    nodejs npm yarn nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext\
+    yarn \
+    nghttp2 \
+    nghttp2-libs \
+    libxslt \
+    libass \
+    cairo \
+    libx11 \
+    ghostscript \
+    poppler-data \
+    poppler-utils \
+    gettext \
+    build-base \
+    poppler \
+    qt5-qtbase \
+    qt5-qtbase-dev \
+    poppler-qt5 \
+    poppler-dev \
+    poppler-qt5-dev \
+    gconf-service \
+    libasound2 \
+    libatk1.0-0 \
+    libc6 \
+    libcairo2 \
+    libcups2 \
+    libdbus-1-3 \
+    libexpat1 \
+    libfontconfig1 \
+    libgcc1 \
+    libgconf-2-4 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnspr4 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libstdc++6 \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6 \
+    ca-certificates \
+    fonts-liberation \
+    libnss3 \
+    lsb-release \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
-# Fonts
+RUN npm update -g npm
+
+# Install fonts
 RUN apk add --no-cache msttcorefonts-installer fontconfig \
     && update-ms-fonts \
-# Google fonts
     && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
     && tar -xf gf.tar.gz \
     && mkdir -p /usr/share/fonts/truetype/google-fonts \
     && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
     && rm -f gf.tar.gz \
     && rm -rf /fonts-main
-
-RUN apk add --upgrade nghttp2 nghttp2-libs libxslt libass cairo libx11 chromium ghostscript poppler-data poppler-utils gettext \
-        && rm -rf /var/lib/apt/lists/* \
-        && rm /var/cache/apk/*
-
-
-RUN apk update
-
-RUN apk add --update build-base
-RUN apk add --update poppler
-RUN apk add --update qt5-qtbase
-RUN apk add --update qt5-qtbase-dev
-RUN apk add --update poppler-qt5
-RUN apk add --update poppler-dev
-RUN apk add --update poppler-qt5-dev
-# End installing dependencies
 
 ENV APP_ROOT=/usr/src/pdf-libs
 WORKDIR $APP_ROOT

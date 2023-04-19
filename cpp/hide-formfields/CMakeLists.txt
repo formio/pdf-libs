@@ -17,7 +17,7 @@ set(LIB_DIR /lib/x86_64-linux-gnu)
 set(INCLUDE_POPPLER /usr/include/poppler/cpp)
 set(INCLUDE_POPPLER_QT /usr/include/poppler/qt5)
 set(INCLUDE_QT /usr/include/qt5)
-set(INCLUDE_QT_CORE /usr/include/qt5/QtCore)
+set(INCLUDE_QT_CORE /usr/include/QtCore)
 
 add_executable(hide-formfields main.cpp)
 
