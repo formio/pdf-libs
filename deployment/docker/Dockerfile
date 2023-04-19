@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.15
 MAINTAINER  Form.io <support@form.io>
 
 # Installing dependencies
