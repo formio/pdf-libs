@@ -5,9 +5,8 @@ jobs:
   docker:
     environment:
       IMAGE_PATH: formio/pdf-libs
-    machine:
-      enabled: true
-      image: circleci/classic:edge
+    docker:
+      - image: cimg/node:lts
     steps:
       - run:
           name: Enable docker experimental features.
@@ -15,9 +14,14 @@ jobs:
             sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
             sudo service docker restart
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: docker build --no-cache -t $IMAGE_PATH -f deployment/docker/Dockerfile .
+      - run:
+          name: build
+          command: |
+            docker build --no-cache -t $IMAGE_PATH -f deployment/docker/Dockerfile .
       - run:
           name: deploy
           command: |
