@@ -1,11 +1,9 @@
-FROM node:lts-alpine3.12
+FROM ubuntu:22.04
 LABEL maintainer="Form.io <support@form.io>"
 
 # Install dependencies
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache \
-    apk-tools \
+RUN apt-get update \
+    && apt-get install \
     cmake \
     ttf-freefont \
     gnu-libiconv-dev \
@@ -13,12 +11,15 @@ RUN apk update \
     dumb-init \
     git \
     wget \
-    yarn \
     nghttp2 \
     nghttp2-libs \
     libxslt \
     libass \
     cairo \
+    libcairo-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libxml2-dev \
     libx11 \
     ghostscript \
     poppler-data \
@@ -31,42 +32,7 @@ RUN apk update \
     poppler-qt5 \
     poppler-dev \
     poppler-qt5-dev \
-    gconf-service \
-    libasound2 \
-    libatk1.0-0 \
-    libc6 \
-    libcairo2 \
-    libcups2 \
-    libdbus-1-3 \
-    libexpat1 \
-    libfontconfig1 \
-    libgcc1 \
-    libgconf-2-4 \
-    libgdk-pixbuf2.0-0 \
-    libglib2.0-0 \
-    libgtk-3-0 \
-    libnspr4 \
-    libpango-1.0-0 \
-    libpangocairo-1.0-0 \
-    libstdc++6 \
-    libx11-6 \
-    libx11-xcb1 \
-    libxcb1 \
-    libxcomposite1 \
-    libxcursor1 \
-    libxdamage1 \
-    libxext6 \
-    libxfixes3 \
-    libxi6 \
-    libxrandr2 \
-    libxrender1 \
-    libxss1 \
-    libxtst6 \
-    ca-certificates \
-    fonts-liberation \
-    libnss3 \
-    lsb-release \
-    xdg-utils \
+    yarn \
     && rm -rf /var/lib/apt/lists/* \
     && rm /var/cache/apk/*
 
@@ -104,9 +70,9 @@ ENV HIDE_FORMFIELDS=$HIDE_FORMFIELDS_ROOT/bin/hide-formfields
 ## Installing pdf2htmlEX
 WORKDIR /usr/src/pdf-libs
 RUN mkdir pdf2HtmlEx
-RUN wget https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-alpine-3.12.0-x86_64.tar.gz -O pdf2HtmlEx.tar.gz \
-    && tar -xvf pdf2HtmlEx.tar.gz  -C / \
-    && rm -f pdf2HtmlEx.tar.gz
+RUN wget https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
+    && apt -y upgrade && \
+    && apt -y --no-install-recommends install ./pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
 ENV PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
 # End installing third-party tools
