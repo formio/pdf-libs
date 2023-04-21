@@ -63,6 +63,8 @@ ENV EXTRACT_FORMFIELDS=$EXTRACT_FORMFIELDS_ROOT/bin/extract-formfields \
     PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
 
+WORKDIR $APP_ROOT
+
 # Installing node.js packages
 COPY package.json ./
 COPY yarn.lock ./
