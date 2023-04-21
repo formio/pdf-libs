@@ -16,27 +16,30 @@ RUN apt-get update && \
     g++ \
     cmake \
     make \
+    openssh-client \
+    git \
+    libcap2-bin \
     libpoppler-dev \
     libpoppler-qt5-dev \
     qtbase5-dev \
     ghostscript && \
+    # pdf2htmlEX
+    wget "$PDF2HTMLEX_URL" && \
+    apt-get install -y --no-install-recommends ./$PDF2HTMLEX && \
+    # Disable EULA agreement for msttcorefonts
+    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
+    # Fonts
+    apt-get install -y ttf-mscorefonts-installer && \
+    wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
+    tar -xf gf.tar.gz && \
+    mkdir -p /usr/share/fonts/truetype/google-fonts && \
+    find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 && \
     # Chromium
     wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
     apt-get update && \
     apt-get install google-chrome-stable -y --no-install-recommends && \
     rm -rf /var/lib/apt/lists/* && \
-    # pdf2htmlEX
-    wget "$PDF2HTMLEX_URL" && \
-    apt install -y --no-install-recommends ./$PDF2HTMLEX && \
-    # Disable EULA agreement for msttcorefonts
-    # echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
-    # Fonts
-    # apt-get install -y ttf-mscorefonts-installer && \
-    # wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
-    # tar -xf gf.tar.gz && \
-    # mkdir -p /usr/share/fonts/truetype/google-fonts && \
-    # find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 && \
     # Node.js and Yarn v1.x
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
     apt-get install -y nodejs && \
