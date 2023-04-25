@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# 2.0.5-rc.3
+## Changed
+ - FIO-6640: Move to Ubuntu to fix dependency problems between chromium and pdf2htmlEX
+
 # 2.0.5-rc.1
 - updated Dockerfile to eliminate edge dependencies
 
