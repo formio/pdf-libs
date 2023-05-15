@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+# [Unreleased 2.0.5-rc.4]
+## Changed
+ - FIO-5005: Circle CI config added
+
 # 2.0.5-rc.3
 ## Changed
  - FIO-6640: Move to Ubuntu to fix dependency problems between chromium and pdf2htmlEX
