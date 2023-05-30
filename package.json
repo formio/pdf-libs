@@ -7,7 +7,7 @@
     "start": "node main",
     "dev": "nodemon main",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -b -t 30000 test/*/** --exit"
   },
   "keywords": [],
   "author": "",
@@ -22,10 +22,13 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "assert": "^2.0.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-formio": "^1.1.4",
     "eslint-plugin-import": "^2.22.1",
+    "mocha": "^10.2.0",
+    "mock-require": "^3.0.3",
     "nodemon": "^2.0.7",
     "superagent": "^8.0.9"
   }
