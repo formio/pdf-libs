@@ -6,7 +6,10 @@ const {exec} = require('../../utils');
 
 const extractFormfields = async (filePath) => {
   return JSON.parse((await exec(
-    `${extractFormfieldsPath} ${filePath}`
+    `${extractFormfieldsPath} ${filePath}`,
+    {
+      maxBuffer: 1024 * 1024 * 50 // 50mb
+    }
   )).stdout);
 };
 
