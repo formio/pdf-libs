@@ -4,7 +4,6 @@ const {pdf2htmlexPath} = require('../../../../config');
 const {exec} = require('../../utils');
 
 const generateHtml = async (filePath, toFile, params, commands, timeout) => {
-  // try {
   const {zoom, dpi} = params;
   const args = commands.concat([
     '--no-drm',

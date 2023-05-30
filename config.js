@@ -16,14 +16,14 @@ if (!pdf2htmlexPath) {
 const psToPdfPath = process.env.PSTOPDF_PATH;
 
 if (!psToPdfPath) {
-  console.error('PDF2HTMLEX_PATH must be provided');
+  console.error('PSTOPDF_PATH must be provided');
   process.exit(1);
 }
 
 const extractFormfieldsPath = process.env.EXTRACT_FORMFIELDS;
 
 if (!extractFormfieldsPath) {
-  console.error('POPPLER_PDF_TO_JSON must be provided');
+  console.error('EXTRACT_FORMFIELDS must be provided');
   process.exit(1);
 }
 
