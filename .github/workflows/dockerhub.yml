@@ -22,3 +22,9 @@ jobs:
 
     - name: Push the Docker image
       run: docker push formio/pdf-libs:${{github.ref_name}}
+    
+    - name: Push latest
+      run: |
+        docker tag formio/pdf-libs:${{github.ref_name}} formio/pdf-libs:latest
+        docker push formio/pdf-libs:latest
+      if: ${{!contains(github.ref_name, 'rc')}}
