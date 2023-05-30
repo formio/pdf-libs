@@ -1,0 +1,24 @@
+name: Build & Push to Dockerhub
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Login to Dockerhub
+      run: echo {{secrets.DOCKERHUB_ACCESS-TOKEN}} | docker login -u {{vars.DOCKERHUB_USERNAME}} --password-stdin
+
+    - name: Build the Docker image
+      run: docker build . -file deployment/docker/Dockerfile --tag formio/pdf-libs:${{github.ref_name}}
+
+    - name: Push the Docker image
+      run: docker push formio/pdf-libs:{{github.ref_name}}
