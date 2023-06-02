@@ -1,10 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
-## [Unreleased 2.0.5-rc.4]
+## [2.0.5-rc.4]
+### Fixed
+ - FIO-6389: max stdout buffer for extractFormfields increased
 ### Changed
+ - Github Actions workflows added
+ - Unit tests for extract-formfields added
  - FIO-5005: Circle CI config added
-
 ## 2.0.5-rc.3
 ### Changed
  - FIO-6640: Move to Ubuntu to fix dependency problems between chromium and pdf2htmlEX
