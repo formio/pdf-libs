@@ -1,7 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
-## [2.0.5-rc.4]
+## 2.0.5-rc.5
+### Changed
+ - port env variable name changed to PDFLIBS_PORT
+## 2.0.5-rc.4
 ### Fixed
  - FIO-6389: max stdout buffer for extractFormfields increased
 ### Changed
