@@ -4,7 +4,7 @@
 
 require('dotenv').config();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PDFLIBS_PORT || 8080;
 
 const pdf2htmlexPath = process.env.PDF2HTMLEX_PATH;
 
