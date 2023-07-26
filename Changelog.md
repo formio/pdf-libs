@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.0.5
+### Changed
+ - Official Release
+   
 ## 2.0.5-rc.5
 ### Changed
  - port env variable name changed to PDFLIBS_PORT
