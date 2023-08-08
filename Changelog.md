@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## [Unreleased: 2.1.0-rc.1]
+### Changed
+ - FIO-7174: Added poppler-utils
+   
 ## 2.0.5
 ### Changed
  - Official Release
