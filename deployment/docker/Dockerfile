@@ -22,6 +22,7 @@ RUN apt-get update && \
     libpoppler-dev \
     libpoppler-qt5-dev \
     qtbase5-dev \
+    poppler-utils \
     ghostscript && \
     # pdf2htmlEX
     wget "$PDF2HTMLEX_URL" && \
