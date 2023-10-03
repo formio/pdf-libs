@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.1.1-rc.2
+### Changed
+ - update nodesource script
+
+## 2.1.1-rc.1
+### Changed
+ - Updated build
+   
 ## 2.1.0
 ### Changed
  - Official Release
