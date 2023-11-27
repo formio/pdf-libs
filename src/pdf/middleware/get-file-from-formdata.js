@@ -12,7 +12,7 @@ const getFileFromFormData = (req, res, next) => {
     }
     if (!files.pdf) {
       req.debug('No files were uploaded');
-      res.status(400).send('No files were uploaded');
+      return res.status(400).send('No files were uploaded');
     }
     req.filePath = files.pdf.path;
     req.cleanup.push(files.pdf.path);
