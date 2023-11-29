@@ -8,7 +8,7 @@ const getFileFromFormData = (req, res, next) => {
   form.parse(req, async (err, __, files) => {
     if (err) {
       req.debug(err);
-      res.status(400).send(err);
+      return res.status(400).send(err);
     }
     if (!files.pdf) {
       req.debug('No files were uploaded');
