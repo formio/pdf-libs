@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.1.3-rc.1
+### Changed
+ - Update build
+
 ## 2.1.2
 ### Changed
  - Official Release
