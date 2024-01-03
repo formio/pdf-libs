@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.1.3-rc.2
+### Changed
+ - FIO-7589: hotfix for no return crash
+
 ## 2.1.3-rc.1
 ### Changed
  - Update build
