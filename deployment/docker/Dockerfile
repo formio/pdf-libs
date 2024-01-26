@@ -5,7 +5,7 @@ LABEL maintainer="Form.io <support@form.io>"
 ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
     PDF2HTMLEX=pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
     DEBIAN_FRONTEND=noninteractive \
-    NODE_MAJOR=18
+    NODE_MAJOR=20
 
 # Install dependencies, fonts, chromium, and pdf2htmlEX
 RUN apt-get update && \
