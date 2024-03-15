@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file
 ## 2.1.3-rc.3
 ### Changed
  - Update image
+ - FIO-7820: Update Dockerfile to pull in Node.js v20
 
 ## 2.1.3-rc.2
 ### Changed
