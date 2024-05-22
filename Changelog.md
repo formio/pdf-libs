@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.1.3-rc.7
+### Changed
+ - Update image
+
 ## 2.1.3-rc.6
 ### Changed
  - Update image
