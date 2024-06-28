@@ -12,7 +12,8 @@ jobs:
           name: Enable docker experimental features.
           command: |
             sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
-            sudo service docker restart
+            sudo /etc/init.d/docker stop
+            sudo /etc/init.d/docker start
       - checkout
       - setup_remote_docker:
           version: 19.03.13
