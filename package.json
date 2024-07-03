@@ -24,11 +24,11 @@
   },
   "devDependencies": {
     "assert": "^2.0.0",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-formio": "^1.1.4",
     "eslint-plugin-import": "^2.29.1",
-    "mocha": "^10.5.2",
+    "mocha": "^10.6.0",
     "mock-require": "^3.0.3",
     "nodemon": "^3.1.4",
     "superagent": "^9.0.2"
