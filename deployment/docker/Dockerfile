@@ -9,6 +9,7 @@ ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0
 
 # Install dependencies, fonts, chromium, and pdf2htmlEX
 RUN apt-get update && \
+    apt-get upgrade -y && \
     # Dependencies
     apt-get install -y \
     gnupg \
@@ -48,6 +49,7 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y nodejs && \
     npm install -g yarn && \
     # Cleanup
