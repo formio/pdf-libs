@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.3
+### Changed
+ - Fix formidable upload issue, fix error handling, do structural refactor
+ - 
 ## 2.1.3-rc.7
 ### Changed
  - Update image
