@@ -4,7 +4,7 @@ const path = require('path');
 const {v4: uuid} = require('uuid');
 const tmpdir = require('os').tmpdir();
 
-const {generateHtml} = require('../services/convert-to-html');
+const {generateHtml} = require('../../services/pdf/convert-to-html');
 const {htmlGenerationTimeoutConfig} = require('../../../config');
 
 const convertToHtml = async (req, res, next) => {
@@ -27,7 +27,7 @@ const convertToHtml = async (req, res, next) => {
   }
   catch (err) {
     return req.optimizedPdf
-      ? res.status(500).send(err)
+      ? next(err)
       : next();
   }
   return res.sendFile(outputPath, (err) => {
@@ -37,4 +37,4 @@ const convertToHtml = async (req, res, next) => {
   });
 };
 
-module.exports = convertToHtml;
+module.exports = {convertToHtml};

@@ -1,8 +1,7 @@
 'use strict';
 
 const {extractFormfieldsPath} = require('../../../../config');
-
-const {exec} = require('../../utils');
+const {exec} = require('../../../utils');
 
 const extractFormfields = async (filePath) => {
   return JSON.parse((await exec(
@@ -13,4 +12,4 @@ const extractFormfields = async (filePath) => {
   )).stdout);
 };
 
-module.exports = extractFormfields;
+module.exports = {extractFormfields};

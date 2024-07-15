@@ -1,8 +1,9 @@
 'use strict';
 
-const {spawn} = require('child_process');
-const {psToPdfPath} = require('../../../../config');
 const os = require('os');
+const {spawn} = require('child_process');
+
+const {psToPdfPath} = require('../../../../config');
 
 const psToPdf = (filePath, toFile, done) => {
   try {
@@ -37,4 +38,4 @@ const psToPdf = (filePath, toFile, done) => {
   }
 };
 
-module.exports = psToPdf;
+module.exports = {psToPdf};
