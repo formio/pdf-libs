@@ -1,6 +1,7 @@
 'use strict';
 
 const r = require('express').Router();
+const debugScopes = require('./debug-scopes');
 
 const {
   getFileFromFormData,
@@ -9,14 +10,13 @@ const {
   getFormfields,
   cleanup,
   debug
-} = require('./middleware');
+} = require('./handlers');
 
-r.use(debug('pdfLibs'));
 r.use(cleanup);
 r.use(getFileFromFormData);
 
 r.post('/convertToHtml',
-  debug('pdfLibs.html'),
+  debug(debugScopes.CONVERT_TO_HTML),
   // hideFormfields,
   convertToHtml,
   optimizePdf,
@@ -26,7 +26,7 @@ r.post('/getFormfields', debug('pdfLibs.formfields'), getFormfields);
 
 // DEPRECATED PATHS
 r.post('/pdf2html',
-  debug('pdfLibs.html'),
+  debug(debugScopes.FORMFIELDS),
   // hideFormfields,
   convertToHtml,
   optimizePdf,

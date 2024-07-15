@@ -2,7 +2,8 @@
 
 const fs = require('fs/promises');
 const _ = require('lodash');
-module.exports = (req, res, next) => {
+
+const cleanup = (req, res, next) => {
   res.on('finish', () => {
     if (!req.cleanup || !req.cleanup.length) {
       return;
@@ -20,3 +21,5 @@ module.exports = (req, res, next) => {
   });
   return next();
 };
+
+module.exports = {cleanup};
