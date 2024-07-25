@@ -4,12 +4,13 @@ const {extractFormfieldsPath} = require('../../../../config');
 const {exec} = require('../../../utils');
 
 const extractFormfields = async (filePath) => {
-  return JSON.parse((await exec(
+  const result = await exec(
     `${extractFormfieldsPath} ${filePath}`,
     {
       maxBuffer: 1024 * 1024 * 50 // 50mb
     }
-  )).stdout);
+  );
+  return JSON.parse(result.stdout);
 };
 
 module.exports = {extractFormfields};
