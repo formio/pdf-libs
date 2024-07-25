@@ -1,10 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.5
+### Changed
+ - remove non-functional tests
+
+## 2.2.0-rc.4
+### Changed
+ - FIO-8733: Update Docker build process
+
 ## 2.2.0-rc.3
 ### Changed
  - Fix formidable upload issue, fix error handling, do structural refactor
- - 
+
 ## 2.1.3-rc.7
 ### Changed
  - Update image
