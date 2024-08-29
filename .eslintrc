@@ -1,9 +1,13 @@
 {
   "root": true,
   "extends":  "eslint-config-formio",
+  "plugins": [
+    "mocha"
+  ],
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "mocha": true
   },
   "parserOptions": {
     "ecmaVersion": 2020

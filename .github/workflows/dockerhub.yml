@@ -17,8 +17,14 @@ jobs:
     - name: Login to Dockerhub
       run: echo ${{secrets.DOCKERHUB_ACCESS_TOKEN}} | docker login -u ${{vars.DOCKERHUB_USERNAME}} --password-stdin
 
+    - name: Build intermediate Docker image
+      run: docker build -f deployment/docker/Dockerfile -t formio/pdf-libs:tmp .
+
+    - name: Run tests on the Docker image
+      run: docker run formio/pdf-libs:tmp npm test
+
     - name: Build the Docker image
-      run: docker build -f deployment/docker/Dockerfile -t formio/pdf-libs:${{github.ref_name}} .
+      run: docker build -f deployment/docker/Dockerfile-no-tests -t formio/pdf-libs:${{github.ref_name}} .
 
     - name: Push the Docker image
       run: docker push formio/pdf-libs:${{github.ref_name}}
@@ -27,4 +33,4 @@ jobs:
       run: |
         docker tag formio/pdf-libs:${{github.ref_name}} formio/pdf-libs:latest
         docker push formio/pdf-libs:latest
-      if: ${{!contains(github.ref_name, 'rc')}}
+      if: ${{ !contains(github.ref_name, 'rc') && !contains(github.ref_name, 'test') }}
