@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.8
+### Changed
+ - Actually update yarn.lock
+
 ## 2.2.0-rc.7
 ### Changed
  - Update yarn.lock
