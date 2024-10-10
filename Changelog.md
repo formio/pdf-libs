@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.9
+### Changed
+ - Update image
+ - Update debug@4.3.7
+ - Update express@4.21.1
+
 ## 2.2.0-rc.8
 ### Changed
  - Actually update yarn.lock
