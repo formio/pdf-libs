@@ -39,7 +39,9 @@ RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /e
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     && git clone --single-branch https://github.com/pdf2htmlEX/pdf2htmlEX.git \
+    # Checkout a specific commit to avoid brittle builds
     && cd pdf2htmlEX \
+    && git reset --hard 6f85c88b1df66b1658bef6a8c478fd5e0ed684af \
     # openjdk-8-jre-headless is not available in bookworm, so we remove it from the script
     # (it seems like we don't actually need it to build successfully)
     && sed -i '/openjdk-8-jre-headless/d' ./buildScripts/getBuildToolsApt \
