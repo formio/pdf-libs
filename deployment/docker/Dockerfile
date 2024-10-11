@@ -5,18 +5,18 @@ LABEL maintainer="Form.io <support@form.io>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update sources, install dependencies, and install fonts
-RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /etc/apt/sources.list && \
-    echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get upgrade && \
+RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get upgrade \
     # Disable EULA agreement for msttcorefonts
-    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
+    && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
     # Dependencies
-    apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     wget \
     g++ \
     cmake \
@@ -28,12 +28,12 @@ RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /e
     poppler-utils \
     ghostscript \
     git \
-    sudo && \
+    sudo \
     # Fonts
-    wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
-    tar -xf gf.tar.gz && \
-    mkdir -p /usr/share/fonts/truetype/google-fonts && \
-    find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
+    && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
+    && tar -xf gf.tar.gz \
+    && mkdir -p /usr/share/fonts/truetype/google-fonts \
+    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
 
 # Install pdf2htmlEX
 RUN apt-get update \
@@ -79,13 +79,13 @@ ENV EXTRACT_FORMFIELDS=$EXTRACT_FORMFIELDS_ROOT/bin/extract-formfields \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
 
 # Clean up
-RUN rm -f /etc/apt/sources.list && \
-    apt-get clean && \
-    rm -f gf.tar.gz && \
-    rm -rf /fonts-main && \
-    apt-get autoremove -y && \
-    apt-get remove wget -y && \
-    apt-get remove git -y
+RUN rm -f /etc/apt/sources.list \
+    && apt-get clean  \
+    && rm -f gf.tar.gz  \
+    && rm -rf /fonts-main  \
+    && apt-get autoremove -y  \
+    && apt-get remove wget -y \
+    && apt-get remove git -y
 
 EXPOSE ${PORT}
 
