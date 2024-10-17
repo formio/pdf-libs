@@ -1,35 +1,57 @@
-FROM ubuntu:24.04 AS builder
+FROM node:20-bookworm-slim
 LABEL maintainer="Form.io <support@form.io>"
 
-# Set initial environment variables
-ENV PDF2HTMLEX_URL=https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
-    PDF2HTMLEX=pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-focal-x86_64.deb \
-    DEBIAN_FRONTEND=noninteractive \
-    NODE_MAJOR=20
+# Set installation environment variables
+ENV DEBIAN_FRONTEND=noninteractive
 
-# install pdf2htmlEX and NodeJS
-RUN apt-get update && \
-    apt-get upgrade -y && \
+# Update sources, install dependencies, and install fonts
+RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get upgrade \
+    # Disable EULA agreement for msttcorefonts
+    && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
     # Dependencies
-    apt-get install -y \
+    && apt-get install -y --no-install-recommends \
     wget \
+    g++ \
+    cmake \
+    make \
+    ca-certificates \
+    libpoppler-dev \
+    libpoppler-qt5-dev \
+    qtbase5-dev \
+    poppler-utils \
+    ghostscript \
     git \
-    gpg \
-    curl && \
-    # pdf2htmlEX
-    wget "$PDF2HTMLEX_URL" && \
-    apt-get install -y --no-install-recommends ./$PDF2HTMLEX && \
-    # Node.js and Yarn v1.x
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y nodejs && \
-    npm install -g yarn
+    sudo \
+    # Fonts
+    && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
+    && tar -xf gf.tar.gz \
+    && mkdir -p /usr/share/fonts/truetype/google-fonts \
+    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
+
+# Install pdf2htmlEX
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    && git clone --single-branch https://github.com/pdf2htmlEX/pdf2htmlEX.git \
+    # Checkout a specific commit to avoid brittle builds
+    && cd pdf2htmlEX \
+    && git reset --hard 6f85c88b1df66b1658bef6a8c478fd5e0ed684af \
+    # openjdk-8-jre-headless is not available in bookworm, so we remove it from the script
+    # (it seems like we don't actually need it to build successfully)
+    && sed -i '/openjdk-8-jre-headless/d' ./buildScripts/getBuildToolsApt \
+    && ./buildScripts/buildInstallLocallyApt \
+    && cd .. \
+    && rm -rf pdf2htmlEX
 
 WORKDIR /usr/src/pdf-libs
-# Install node.js packages
+
+# Install pdf-libs npm dependencies
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn install --production --frozen-lockfile
@@ -42,46 +64,6 @@ COPY test ./test
 
 # Add docs
 COPY docs ./docs
-
-FROM node:20-bookworm-slim
-LABEL maintainer="Form.io <support@form.io>"
-
-# Update sources, install dependencies, and install fonts
-RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /etc/apt/sources.list && \
-    echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get upgrade && \
-    # Disable EULA agreement for msttcorefonts
-    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
-    # Dependencies
-    apt-get install -y --no-install-recommends \
-    wget \
-    g++ \
-    cmake \
-    make \
-    ca-certificates \
-    libpoppler-dev \
-    libpoppler-qt5-dev \
-    qtbase5-dev \
-    poppler-utils \
-    ghostscript && \
-    # libjpeg8 dependency for pdf2htmlEX (libjpeg62-turbo is not available in bookworm)
-    wget https://archive.debian.org/debian/pool/main/libj/libjpeg8/libjpeg8_8b-1_amd64.deb && \
-    apt-get install -y ./libjpeg8_8b-1_amd64.deb && \
-    # Fonts
-    wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz && \
-    tar -xf gf.tar.gz && \
-    mkdir -p /usr/share/fonts/truetype/google-fonts && \
-    find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 && \
-    rm -f /etc/apt/sources.list && \
-    # Cleanup
-    apt-get clean && \
-    rm -f gf.tar.gz && \
-    rm -rf /fonts-main
 
 ENV APP_ROOT=/usr/src/pdf-libs
 WORKDIR $APP_ROOT
@@ -98,8 +80,14 @@ ENV EXTRACT_FORMFIELDS=$EXTRACT_FORMFIELDS_ROOT/bin/extract-formfields \
     PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
 
-COPY --from=builder ${PDF2HTMLEX_PATH} ${PDF2HTMLEX_PATH}
-COPY --from=builder /usr/src/pdf-libs /usr/src/pdf-libs
+# Clean up
+RUN rm -f /etc/apt/sources.list \
+    && apt-get clean  \
+    && rm -f gf.tar.gz  \
+    && rm -rf /fonts-main  \
+    && apt-get autoremove -y  \
+    && apt-get remove wget -y \
+    && apt-get remove git -y
 
 EXPOSE ${PORT}
 
