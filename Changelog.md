@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.11
+### Changed
+ - FIO-9177: update dockerfile to build pdf2htmlex from source
+
 ## 2.2.0-rc.10
 ### Changed
  - Update image
