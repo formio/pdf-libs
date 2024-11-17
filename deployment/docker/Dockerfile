@@ -70,7 +70,8 @@ RUN apt update && apt upgrade -y && \
     apt install -y \
     qtbase5-dev \
     libpoppler-qt5-dev \
-    poppler-utils
+    poppler-utils \
+    ghostscript
 
 WORKDIR $APP_ROOT
 
