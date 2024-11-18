@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim
+FROM node:20-bookworm-slim AS builder
 LABEL maintainer="Form.io <support@form.io>"
 
 # Set installation environment variables
@@ -12,7 +12,7 @@ RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /e
     && echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
     && echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
     && apt-get update \
-    && apt-get upgrade \
+    && apt-get upgrade -y \
     # Disable EULA agreement for msttcorefonts
     && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
     # Dependencies
@@ -49,7 +49,36 @@ RUN apt-get update \
     && cd .. \
     && rm -rf pdf2htmlEX
 
-WORKDIR /usr/src/pdf-libs
+# Build extract-formfields tool
+ENV APP_ROOT=/usr/src/pdf-libs
+ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
+
+WORKDIR $APP_ROOT
+
+COPY cpp ./cpp
+WORKDIR $EXTRACT_FORMFIELDS_ROOT
+RUN $EXTRACT_FORMFIELDS_ROOT/build.sh
+
+# ---------------------------------------------
+
+FROM node:20-bookworm-slim
+
+ENV APP_ROOT=/usr/src/pdf-libs
+ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
+
+RUN apt update && apt upgrade -y && \
+    apt install -y \
+    qtbase5-dev \
+    libpoppler-qt5-dev \
+    poppler-utils \
+    ghostscript
+
+WORKDIR $APP_ROOT
+
+COPY --from=builder /usr/share/fonts/truetype/google-fonts /usr/share/fonts/truetype/google-fonts
+
+COPY --from=builder ${APP_ROOT}/cpp ./cpp
+COPY --from=builder /usr/local/bin/pdf2htmlEX /usr/local/bin/pdf2htmlEX
 
 # Install pdf-libs npm dependencies
 COPY package.json ./
@@ -65,29 +94,13 @@ COPY test ./test
 # Add docs
 COPY docs ./docs
 
-ENV APP_ROOT=/usr/src/pdf-libs
-WORKDIR $APP_ROOT
-
-# Build extract-formfields tool
-COPY cpp ./cpp
-ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
-WORKDIR $EXTRACT_FORMFIELDS_ROOT
-RUN ${EXTRACT_FORMFIELDS_ROOT}/build.sh
-WORKDIR $APP_ROOT
-
 # Set runtime environment variables
 ENV EXTRACT_FORMFIELDS=$EXTRACT_FORMFIELDS_ROOT/bin/extract-formfields \
     PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
 
 # Clean up
-RUN rm -f /etc/apt/sources.list \
-    && apt-get clean  \
-    && rm -f gf.tar.gz  \
-    && rm -rf /fonts-main  \
-    && apt-get autoremove -y  \
-    && apt-get remove wget -y \
-    && apt-get remove git -y
+RUN rm -f /etc/apt/sources.list apt-get clean
 
 EXPOSE ${PORT}
 
