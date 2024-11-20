@@ -22,7 +22,7 @@
     "formidable": "^3.5.2",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
-    "mocha": "^10.7.3",
+    "mocha": "^10.8.1",
     "superagent": "^10.1.1",
     "uuid": "^9.0.1"
   },
