@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.13
+### Changed
+ - Fix HTML Generation Timeout Parsing and Add PDFLIBS_PORT to Configuration
+
+## 2.2.0-rc.12
+### Changed 
+ - FIO-9254: Add mutilstage build 
+   
 ## 2.2.0-rc.11
 ### Changed
  - FIO-9177: update dockerfile to build pdf2htmlex from source
