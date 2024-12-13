@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.14
+### Changed
+ - Update image
+
 ## 2.2.0-rc.13
 ### Changed
  - Fix HTML Generation Timeout Parsing and Add PDFLIBS_PORT to Configuration
