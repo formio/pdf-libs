@@ -1,26 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 project(hide-formfields)
 
-find_library(poppler poppler)
-find_library(poppler-qt poppler-qt5)
-find_library(qt Qt5Core)
+find_package(Qt5Core REQUIRED)
+find_library(poppler_LIB poppler)
+find_library(poppler_qt_LIB poppler-qt5)
 
-message("${qt}")
-message("${poppler}")
-message("${poppler-qt}")
-
-set(LIB_DIR /lib/x86_64-linux-gnu)
+message("Qt5Core found at: ${Qt5Core_LIBRARIES}")
+message("Poppler found at: ${poppler_LIB}")
+message("Poppler-Qt5 found at: ${poppler_qt_LIB}")
 
 set(INCLUDE_POPPLER /usr/include/poppler/cpp)
 set(INCLUDE_POPPLER_QT /usr/include/poppler/qt5)
-set(INCLUDE_QT /usr/include/qt5)
-set(INCLUDE_QT_CORE /usr/include/QtCore)
+
+include_directories(${INCLUDE_POPPLER} ${INCLUDE_POPPLER_QT})
 
 add_executable(hide-formfields main.cpp)
 
-include_directories(${INCLUDE_POPPLER} ${INCLUDE_POPPLER_QT} ${INCLUDE_QT} ${INCLUDE_QT_CORE} include)
-
-target_link_libraries(hide-formfields ${qt} ${poppler} ${poppler-qt})
+target_link_libraries(hide-formfields Qt5::Core ${poppler_LIB} ${poppler_qt_LIB})
