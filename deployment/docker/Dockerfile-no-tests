@@ -1,5 +1,0 @@
-FROM formio/pdf-libs:tmp
-
-WORKDIR /usr/src/pdf-libs
-# Remove test folder
-RUN rm -rf test

@@ -89,8 +89,6 @@ RUN yarn install --production --frozen-lockfile
 COPY src ./src
 COPY *.js ./
 
-COPY test ./test
-
 # Add docs
 COPY docs ./docs
 
