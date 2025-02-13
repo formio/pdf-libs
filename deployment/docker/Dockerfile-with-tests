@@ -1,0 +1,8 @@
+FROM formio/pdf-libs:${REF_NAME}
+
+WORKDIR /usr/src/pdf-libs
+
+# run again without --production flag to install dev dependencies
+RUN yarn install --frozen-lockfile
+
+COPY test ./test
