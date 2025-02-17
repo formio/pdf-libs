@@ -71,8 +71,10 @@ ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
 
 RUN apt update && apt upgrade -y && \
     apt install -y \
-    qtbase5-dev \
-    libpoppler-qt5-dev \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5xml5 \
+    libpoppler-qt5-1 \
     poppler-utils \
     ghostscript \
     && rm -f /etc/apt/sources.list \
