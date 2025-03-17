@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.20
+### Changed
+ - Update node image
+
 ## 2.2.0-rc.19
 ### Changed
  - Update image
