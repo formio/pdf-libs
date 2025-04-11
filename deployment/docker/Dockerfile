@@ -33,8 +33,7 @@ RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /e
     && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
     && tar -xf gf.tar.gz \
     && mkdir -p /usr/share/fonts/truetype/google-fonts \
-    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
-    && rm gf.tar.gz && rm -rf fonts-main
+    && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
 
 # Install pdf2htmlEX
 RUN apt-get update \
@@ -55,12 +54,10 @@ ENV APP_ROOT=/usr/src/pdf-libs
 ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
 
 WORKDIR $APP_ROOT
-# only copy extract-formfields since hide-formfields is broken
-COPY cpp/extract-formfields $EXTRACT_FORMFIELDS_ROOT
+
+COPY cpp ./cpp
 WORKDIR $EXTRACT_FORMFIELDS_ROOT
-RUN $EXTRACT_FORMFIELDS_ROOT/build.sh && \
-    # only preserve the executable
-    find . -mindepth 1 -maxdepth 1 ! -name 'bin' -exec rm -rf {} +
+RUN $EXTRACT_FORMFIELDS_ROOT/build.sh
 
 # ---------------------------------------------
 
@@ -71,15 +68,10 @@ ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
 
 RUN apt update && apt upgrade -y && \
     apt install -y \
-    libqt5core5a \
-    libqt5gui5 \
-    libqt5xml5 \
-    libpoppler-qt5-1 \
+    qtbase5-dev \
+    libpoppler-qt5-dev \
     poppler-utils \
-    ghostscript \
-    && rm -f /etc/apt/sources.list \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    ghostscript
 
 WORKDIR $APP_ROOT
 
@@ -89,13 +81,15 @@ COPY --from=builder ${APP_ROOT}/cpp ./cpp
 COPY --from=builder /usr/local/bin/pdf2htmlEX /usr/local/bin/pdf2htmlEX
 
 # Install pdf-libs npm dependencies
-COPY package.json yarn.lock ./
-RUN yarn install --production --frozen-lockfile \
-    && yarn cache clean
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install --production --frozen-lockfile
 
 # Add sources
 COPY src ./src
 COPY *.js ./
+
+COPY test ./test
 
 # Add docs
 COPY docs ./docs
@@ -104,6 +98,9 @@ COPY docs ./docs
 ENV EXTRACT_FORMFIELDS=$EXTRACT_FORMFIELDS_ROOT/bin/extract-formfields \
     PDF2HTMLEX_PATH="/usr/local/bin/pdf2htmlEX" \
     PSTOPDF_PATH="/usr/bin/ps2pdf"
+
+# Clean up
+RUN rm -f /etc/apt/sources.list apt-get clean
 
 EXPOSE ${PORT}
 
