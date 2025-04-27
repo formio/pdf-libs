@@ -17,7 +17,7 @@
     "debug": "^4.3.6",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "formidable": "^3.5.2",
+    "formidable": "^3.5.4",
     "fs-extra": "^11.3.0",
     "lodash": "^4.17.21",
     "uuid": "^9.0.1"
