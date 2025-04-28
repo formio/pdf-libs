@@ -17,16 +17,16 @@ jobs:
     - name: Login to Dockerhub
       run: echo ${{secrets.DOCKERHUB_ACCESS_TOKEN}} | docker login -u ${{vars.DOCKERHUB_USERNAME}} --password-stdin
 
-    - name: Build intermediate Docker image
-      run: docker build -f deployment/docker/Dockerfile -t formio/pdf-libs:tmp .
+    - name: Build production Docker image
+      run: docker build -f deployment/docker/Dockerfile -t formio/pdf-libs:${{github.ref_name}} .
 
-    - name: Run tests on the Docker image
+    - name: Build temp Docker image for testing (based off production image)
+      run: docker build -f deployment/docker/Dockerfile-with-tests -t formio/pdf-libs:tmp --build-arg REF_NAME=${{github.ref_name}} .
+    
+    - name: Run tests on the temp image
       run: docker run formio/pdf-libs:tmp npm test
 
-    - name: Build the Docker image
-      run: docker build -f deployment/docker/Dockerfile-no-tests -t formio/pdf-libs:${{github.ref_name}} .
-
-    - name: Push the Docker image
+    - name: Push the production image
       run: docker push formio/pdf-libs:${{github.ref_name}}
     
     - name: Push latest

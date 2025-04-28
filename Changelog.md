@@ -1,6 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.18
+### Changed
+ - Correct versioning
+
+## 2.2.0-rc.17
+### Changed
+ - Update image
+
+## 2.2.0-rc.16
+###
+ - Update image
+
+## 2.2.0-rc.15
+###
+ - Update image
+
 ## 2.2.0-rc.14
 ### Changed
  - Update image
