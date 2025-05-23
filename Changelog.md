@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0-rc.23
+ - Update node image
+ - bump dependencies
+
 ## 2.2.0-rc.22
 ### Changed
  - Update node image
