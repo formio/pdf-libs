@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
-## [2.2.0-rc.24]
+## 2.2.0-rc.24
 ### Changed
  - Update node image
 
