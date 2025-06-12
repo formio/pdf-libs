@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.0
+### Changed
+ - Update node image
+ - bump debug@4.4.1
+
 ## 2.2.0-rc.24
 ### Changed
  - Update node image
