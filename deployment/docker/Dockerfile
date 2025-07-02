@@ -55,7 +55,6 @@ ENV APP_ROOT=/usr/src/pdf-libs
 ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
 
 WORKDIR $APP_ROOT
-# only copy extract-formfields since hide-formfields is broken
 COPY cpp/extract-formfields $EXTRACT_FORMFIELDS_ROOT
 WORKDIR $EXTRACT_FORMFIELDS_ROOT
 RUN $EXTRACT_FORMFIELDS_ROOT/build.sh && \
@@ -79,7 +78,7 @@ RUN apt update && apt upgrade -y && \
     ghostscript \
     && rm -f /etc/apt/sources.list \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR $APP_ROOT
 
