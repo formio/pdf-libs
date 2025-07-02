@@ -17,7 +17,6 @@ r.use(getFileFromFormData);
 
 r.post('/convertToHtml',
   debug(debugScopes.CONVERT_TO_HTML),
-  // hideFormfields,
   convertToHtml,
   optimizePdf,
   convertToHtml);
@@ -27,7 +26,6 @@ r.post('/getFormfields', debug('pdfLibs.formfields'), getFormfields);
 // DEPRECATED PATHS
 r.post('/pdf2html',
   debug(debugScopes.FORMFIELDS),
-  // hideFormfields,
   convertToHtml,
   optimizePdf,
   convertToHtml);
