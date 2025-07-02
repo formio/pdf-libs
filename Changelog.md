@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+
+## 2.2.1
+### Changed
+ - Update image node@20.19.3-slim
+
 ## 2.2.0
 ### Changed
  - Update node image
