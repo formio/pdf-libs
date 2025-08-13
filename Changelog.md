@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
-## 2.2.2
+## 2.2.4
+### Changed
+ - Update image
+
+## 2.2.3
 ### Changed
  - Bump dotenv@16.6.1, superagent@10.2.3, eslint@9.31.0, eslint-plugin-import@2.32.0, nodemon
 @3.1.10
