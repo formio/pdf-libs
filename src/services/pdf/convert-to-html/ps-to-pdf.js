@@ -18,7 +18,12 @@ const psToPdf = (filePath, toFile, done) => {
     // req.debug(`${config.psToPdf} ${commands.join(' ')}`);
     // req.cleanup.push(filePath);
     spawn(psToPdfPath, commands, {
-      cwd: os.tmpdir()
+      cwd: os.tmpdir(),
+      // for large pdfs, the stdout/stderr pipe buffers can fill up and this subprocess can block
+      // we aren't listening to this output, so just ignore it
+      // see https://nodejs.org/docs/latest-v20.x/api/child_process.html
+      // TODO: should we be capturing stderr output and logging it if the subprocess exits with an error code?
+      stdio: 'ignore',
     }).on('close', (code) => {
       if (code === 0) {
         // req.debug(`Done PDF optimization => ${filePath}`);

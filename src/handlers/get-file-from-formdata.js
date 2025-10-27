@@ -14,7 +14,7 @@ const getFileFromFormData = (req, __res, next) => {
       return next(new ValidationError('No files were uploaded'));
     }
     req.filePath = files.pdf[0].filepath;
-    req.cleanup.push(req.file);
+    req.cleanup.push(req.filePath);
     next();
   });
 };
