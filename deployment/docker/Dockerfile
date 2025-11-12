@@ -1,16 +1,20 @@
-FROM node:24-trixie-slim AS builder
-LABEL maintainer="Form.io <support@form.io>"
+FROM node:24-trixie-slim
 
 # Set installation environment variables
 ENV DEBIAN_FRONTEND=noninteractive
+ENV APP_ROOT=/usr/src/pdf-libs
+ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
 
-# Update sources, install dependencies, and install fonts
-RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
-    && echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" >> /etc/apt/sources.list \
-    && echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
-    && echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" >> /etc/apt/sources.list \
-    && echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
-    && echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+WORKDIR $APP_ROOT
+COPY cpp/extract-formfields $EXTRACT_FORMFIELDS_ROOT
+
+# Update sources, install dependencies, install pdf2htmlEX, extract-formfields, install fonts, and clean up
+RUN echo "deb http://deb.debian.org/debian/ trixie main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ trixie main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://deb.debian.org/debian/ trixie-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://deb.debian.org/debian/ trixie-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://security.debian.org/debian-security trixie-security main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://security.debian.org/debian-security trixie-security main contrib non-free" >> /etc/apt/sources.list \
     && apt-get update \
     && apt-get upgrade -y \
     # Disable EULA agreement for msttcorefonts
@@ -29,64 +33,41 @@ RUN echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" > /e
     ghostscript \
     git \
     sudo \
+    # Install pdf2htmlEX via our fork (which has been modified to build successfully)
+    && git clone https://github.com/brendanbond/pdf2htmlEX.git \
+    && cd pdf2htmlEX \
+    && ./buildScripts/buildInstallLocallyApt \
+    && cd .. \
+    && rm -rf pdf2htmlEX \
+    # Install extract-formfields
+    && cd ${EXTRACT_FORMFIELDS_ROOT} \
+    && ${EXTRACT_FORMFIELDS_ROOT}/build.sh \
+    && find . -mindepth 1 -maxdepth 1 ! -name 'bin' -exec rm -rf {} + \
+    && cd ${APP_ROOT} \
     # Fonts
     && wget https://github.com/google/fonts/archive/main.tar.gz -O gf.tar.gz \
     && tar -xf gf.tar.gz \
     && mkdir -p /usr/share/fonts/truetype/google-fonts \
     && find ./fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1 \
-    && rm gf.tar.gz && rm -rf fonts-main
-
-# Install pdf2htmlEX
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    # Check out a fork that has been modified to build on trixie
-    && git clone https://github.com/brendanbond/pdf2htmlEX.git \
-    && cd pdf2htmlEX \
-    && ./buildScripts/buildInstallLocallyApt \
-    && cd .. \
-    && rm -rf pdf2htmlEX
-
-# Build extract-formfields tool
-ENV APP_ROOT=/usr/src/pdf-libs
-ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
-
-WORKDIR $APP_ROOT
-COPY cpp/extract-formfields $EXTRACT_FORMFIELDS_ROOT
-WORKDIR $EXTRACT_FORMFIELDS_ROOT
-RUN $EXTRACT_FORMFIELDS_ROOT/build.sh && \
-    # only preserve the executable
-    find . -mindepth 1 -maxdepth 1 ! -name 'bin' -exec rm -rf {} +
-
-# ---------------------------------------------
-
-FROM node:20-bookworm-slim
-
-ENV APP_ROOT=/usr/src/pdf-libs
-ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
-
-RUN apt update && apt upgrade -y && \
-    apt install -y \
-    libqt5core5a \
-    libqt5gui5 \
-    libqt5xml5 \
-    libpoppler-qt5-1 \
-    poppler-utils \
-    ghostscript \
-    && rm -f /etc/apt/sources.list \
+    # Clean up
+    && rm gf.tar.gz && rm -rf fonts-main \
+    && apt-get remove -y wget g++ cmake make git ca-certificates \
+    && apt-get autoremove -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/*
 
-WORKDIR $APP_ROOT
-
-COPY --from=builder /usr/share/fonts/truetype/google-fonts /usr/share/fonts/truetype/google-fonts
-
-COPY --from=builder ${APP_ROOT}/cpp ./cpp
-COPY --from=builder /usr/local/bin/pdf2htmlEX /usr/local/bin/pdf2htmlEX
-
-# Install pdf-libs npm dependencies
+# Install pdf-libs Node.js dependencies and clean up
 COPY package.json yarn.lock ./
 RUN yarn install --production --frozen-lockfile \
-    && yarn cache clean
+    && yarn cache clean \
+    && find node_modules -name "*.md" -delete \
+    && find node_modules -name "*.ts" -delete \
+    && find node_modules -name "*.map" -delete \
+    && find node_modules -type d -name "test" -exec rm -rf {} + 2>/dev/null || true \
+    && find node_modules -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true \
+    && find node_modules -type d -name "docs" -exec rm -rf {} + 2>/dev/null || true
 
 # Add sources
 COPY src ./src
