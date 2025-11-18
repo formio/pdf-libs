@@ -1,6 +1,6 @@
 {
   "name": "pdf-libraries",
-  "version": "2.2.0-rc.18",
+  "version": "2.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
