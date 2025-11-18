@@ -1,3 +1,4 @@
+ARG REF_NAME
 FROM formio/pdf-libs:${REF_NAME}
 
 WORKDIR /usr/src/pdf-libs
