@@ -1,6 +1,64 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.3.0
+### Changed
+ - remove hide-formfields
+ - FIO-10668: update mocha
+ - FIO-10279: Fix temp pdf file path for cleanup
+ - Update base image to node:24-trixie-slim
+
+## 2.2.6
+### Changed
+ - Update image
+
+## 2.2.5
+### Changed
+ - Update image
+
+## 2.2.4
+### Changed
+ - Update image
+
+## 2.2.3
+### Changed
+ - Bump dotenv@16.6.1, superagent@10.2.3, eslint@9.31.0, eslint-plugin-import@2.32.0, nodemon
+@3.1.10
+ - Update image node@20.19.4-bookworm-slim
+
+## 2.2.1
+### Changed
+ - Update image node@20.19.3-bookworm-slim
+
+## 2.2.0
+### Changed
+ - Update node image
+ - bump debug@4.4.1
+
+## 2.2.0-rc.24
+### Changed
+ - Update node image
+
+## 2.2.0-rc.23
+ - Update node image
+ - bump dependencies
+
+## 2.2.0-rc.22
+### Changed
+ - Update node image
+
+## 2.2.0-rc.21
+### Changed
+ - Update node image
+
+## 2.2.0-rc.20
+### Changed
+ - Update node image
+
+## 2.2.0-rc.19
+### Changed
+ - Update image
+
 ## 2.2.0-rc.18
 ### Changed
  - Correct versioning
