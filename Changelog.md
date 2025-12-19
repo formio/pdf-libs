@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.3.1
+### Changed
+ - Update base image
+
 ## 2.3.0
 ### Changed
  - remove hide-formfields
