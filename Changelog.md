@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.7
+### Changed
+ - Update image
+
 ## 2.2.6
 ### Changed
  - Update image
