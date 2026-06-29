@@ -1,6 +1,12 @@
 # Description
 pdf-libs is REST-server that wraps extract-formfields and PDFtoHTMLEX utils
 
+Official Documentation
+--------------------------
+For the latest documentation, release information, and guides, always refer to the official Form.io Help Documentation available here:
+
+**[https://help.form.io](https://help.form.io/deploy/pdf-server#pdf-plus)**
+
 # Running without docker
 * uncomment variables in .env file
 * change PORT variable if need
