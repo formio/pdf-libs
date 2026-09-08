@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file
 
+## 2.2.8
+### Changed
+ - Upgrade base image to node:22-bookworm-slim to support puppeteer 25.x engine requirement (>=22.12.0)
+
 ## 2.2.7
 ### Changed
  - Update image

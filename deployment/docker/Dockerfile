@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim AS builder
+FROM node:22-bookworm-slim AS builder
 LABEL maintainer="Form.io <support@form.io>"
 
 # Set installation environment variables
@@ -61,7 +61,7 @@ RUN $EXTRACT_FORMFIELDS_ROOT/build.sh
 
 # ---------------------------------------------
 
-FROM node:20-bookworm-slim
+FROM node:22-bookworm-slim
 
 ENV APP_ROOT=/usr/src/pdf-libs
 ARG EXTRACT_FORMFIELDS_ROOT=$APP_ROOT/cpp/extract-formfields
